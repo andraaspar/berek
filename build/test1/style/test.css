@@ -1,0 +1,8 @@
+.berek-ScrollbarUtil-box {
+  position: absolute !important;
+  top: -1001px !important;
+  left: -1001px !important;
+  width: 1000px !important;
+  height: 1000px !important;
+  overflow: scroll !important;
+}

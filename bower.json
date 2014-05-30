@@ -1,0 +1,27 @@
+{
+	"name": "berek",
+	"version": "1.0.0",
+	"homepage": "https://github.com/andraaspar/berek",
+	"authors": [
+		"András Parditka"
+	],
+	"description": "TypeScript utilities for the browser.",
+	"moduleType": [
+		"globals"
+	],
+	"keywords": [
+		"TypeScript",
+		"utilities",
+		"browser"
+	],
+	"license": "MIT",
+	"ignore": [
+		"**/.*",
+		"node_modules",
+		"bower_components",
+		"test"
+	],
+	"dependencies": {
+		"illa": "andraaspar/illa#v2"
+	}
+}
