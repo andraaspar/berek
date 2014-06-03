@@ -1,14 +1,14 @@
 var illa;
 (function (illa) {
-    illa.win = (function () {
-        return this.window || this.global;
+    illa.GLOBAL = (function () {
+        return this;
     })();
 
-    illa.typeByClass = (function () {
-        var klass = "Boolean Number String Function Array Date RegExp Object Error".split(" ");
+    illa.classByType = (function () {
+        var classes = 'Boolean Number String Function Array Date RegExp Object Error'.split(' ');
         var result = {};
-        for (var i = 0, n = klass.length; i < n; i++) {
-            result['[object ' + klass[i] + ']'] = klass[i].toLowerCase();
+        for (var i = 0, n = classes.length; i < n; i++) {
+            result['[object ' + classes[i] + ']'] = classes[i].toLowerCase();
         }
         return result;
     })();
@@ -69,7 +69,7 @@ var illa;
         } else {
             result = typeof v;
             if (result == 'object' || result == 'function') {
-                result = illa.typeByClass[toString.call(v)] || 'object';
+                result = illa.classByType[toString.call(v)] || 'object';
             }
         }
         return result;
@@ -153,7 +153,8 @@ var illa;
             for (var _i = 0; _i < (arguments.length - 0); _i++) {
                 args[_i] = arguments[_i + 0];
             }
-            if (illa.win.console && console.log) {
+            var console = illa.GLOBAL.console;
+            if (console && console.log) {
                 if (console.log.apply) {
                     console.log.apply(console, args);
                 } else {
@@ -166,7 +167,8 @@ var illa;
             for (var _i = 0; _i < (arguments.length - 0); _i++) {
                 args[_i] = arguments[_i + 0];
             }
-            if (illa.win.console && console.info) {
+            var console = illa.GLOBAL.console;
+            if (console && console.info) {
                 if (console.info.apply) {
                     console.info.apply(console, args);
                 } else {
@@ -181,7 +183,8 @@ var illa;
             for (var _i = 0; _i < (arguments.length - 0); _i++) {
                 args[_i] = arguments[_i + 0];
             }
-            if (illa.win.console && console.warn) {
+            var console = illa.GLOBAL.console;
+            if (console && console.warn) {
                 if (console.warn.apply) {
                     console.warn.apply(console, args);
                 } else {
@@ -196,7 +199,8 @@ var illa;
             for (var _i = 0; _i < (arguments.length - 0); _i++) {
                 args[_i] = arguments[_i + 0];
             }
-            if (illa.win.console && console.error) {
+            var console = illa.GLOBAL.console;
+            if (console && console.error) {
                 if (console.error.apply) {
                     console.error.apply(console, args);
                 } else {
@@ -277,29 +281,29 @@ var illa;
 })(illa || (illa = {}));
 var illa;
 (function (illa) {
-    var IventCallbackReg = (function () {
-        function IventCallbackReg(callback, thisObj) {
+    var EventCallbackReg = (function () {
+        function EventCallbackReg(callback, thisObj) {
             this.callback = callback;
             this.thisObj = thisObj;
         }
-        return IventCallbackReg;
+        return EventCallbackReg;
     })();
-    illa.IventCallbackReg = IventCallbackReg;
+    illa.EventCallbackReg = EventCallbackReg;
 })(illa || (illa = {}));
 var illa;
 (function (illa) {
-    var Ivent = (function () {
-        function Ivent(type, target) {
+    var Event = (function () {
+        function Event(type, target) {
             this.type = type;
             this.target = target;
             this.isPropagationStopped = false;
             this.isImmediatePropagationStopped = false;
         }
-        Ivent.prototype.dispatch = function () {
+        Event.prototype.dispatch = function () {
             this.processHandler(this.target);
         };
 
-        Ivent.prototype.processHandler = function (handler) {
+        Event.prototype.processHandler = function (handler) {
             this.currentTarget = handler;
             var callbackRegs = handler.getCallbackRegsByType(this.type).slice(0);
             for (var i = 0, n = callbackRegs.length; i < n; i++) {
@@ -315,65 +319,65 @@ var illa;
             }
         };
 
-        Ivent.prototype.getType = function () {
+        Event.prototype.getType = function () {
             return this.type;
         };
 
-        Ivent.prototype.getTarget = function () {
+        Event.prototype.getTarget = function () {
             return this.target;
         };
 
-        Ivent.prototype.getCurrentTarget = function () {
+        Event.prototype.getCurrentTarget = function () {
             return this.currentTarget;
         };
 
-        Ivent.prototype.setIsPropagationStopped = function (flag) {
+        Event.prototype.setIsPropagationStopped = function (flag) {
             this.isPropagationStopped = flag;
         };
 
-        Ivent.prototype.getIsPropagationStopped = function () {
+        Event.prototype.getIsPropagationStopped = function () {
             return this.isPropagationStopped;
         };
 
-        Ivent.prototype.setStopImmediatePropagation = function (flag) {
+        Event.prototype.setStopImmediatePropagation = function (flag) {
             this.isImmediatePropagationStopped = flag;
         };
 
-        Ivent.prototype.getIsImmediatePropagationStopped = function () {
+        Event.prototype.getIsImmediatePropagationStopped = function () {
             return this.isImmediatePropagationStopped;
         };
-        return Ivent;
+        return Event;
     })();
-    illa.Ivent = Ivent;
+    illa.Event = Event;
 })(illa || (illa = {}));
 var illa;
 (function (illa) {
-    var IventHandler = (function () {
-        function IventHandler() {
+    var EventHandler = (function () {
+        function EventHandler() {
             this.callbacksByType = {};
         }
-        IventHandler.prototype.getCallbackRegsByType = function (type) {
+        EventHandler.prototype.getCallbackRegsByType = function (type) {
             var result = this.callbacksByType[type];
             if (!illa.isArray(result))
                 result = [];
             return result;
         };
 
-        IventHandler.prototype.getEventParent = function () {
+        EventHandler.prototype.getEventParent = function () {
             return null;
         };
 
-        IventHandler.prototype.addIventCallback = function (type, cb, thisObj) {
-            var reg = new illa.IventCallbackReg(cb, thisObj);
+        EventHandler.prototype.addEventCallback = function (type, cb, thisObj) {
+            var reg = new illa.EventCallbackReg(cb, thisObj);
             if (illa.isArray(this.callbacksByType[type])) {
-                this.removeIventCallback(type, cb, thisObj);
+                this.removeEventCallback(type, cb, thisObj);
                 this.callbacksByType[type].push(reg);
             } else {
                 this.callbacksByType[type] = [reg];
             }
         };
 
-        IventHandler.prototype.removeIventCallback = function (type, cb, thisObj) {
+        EventHandler.prototype.removeEventCallback = function (type, cb, thisObj) {
             var callbacks = this.callbacksByType[type];
             if (illa.isArray(callbacks)) {
                 for (var i = 0, n = callbacks.length; i < n; i++) {
@@ -386,12 +390,12 @@ var illa;
             }
         };
 
-        IventHandler.prototype.removeAllIventCallbacks = function () {
+        EventHandler.prototype.removeAllEventCallbacks = function () {
             this.callbacksByType = {};
         };
-        return IventHandler;
+        return EventHandler;
     })();
-    illa.IventHandler = IventHandler;
+    illa.EventHandler = EventHandler;
 })(illa || (illa = {}));
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
@@ -405,7 +409,7 @@ var illa;
         __extends(Ticker, _super);
         function Ticker() {
             _super.call(this);
-            this.supportsAnimationFrame = illa.isFunction(illa.win.requestAnimationFrame) && illa.isFunction(illa.win.cancelAnimationFrame);
+            this.supportsAnimationFrame = illa.isFunction(illa.GLOBAL.requestAnimationFrame) && illa.isFunction(illa.GLOBAL.cancelAnimationFrame);
             this.onTickBound = illa.bind(this.onTick, this);
             this.tickCount = 0;
             this.setIsStarted(true);
@@ -443,7 +447,7 @@ var illa;
             if (this.supportsAnimationFrame) {
                 this.intervalID = requestAnimationFrame(this.onTickBound);
             }
-            new illa.Ivent(Ticker.EVENT_TICK, this).dispatch();
+            new illa.Event(Ticker.EVENT_TICK, this).dispatch();
         };
 
         Ticker.prototype.getTickCount = function () {
@@ -451,7 +455,7 @@ var illa;
         };
         Ticker.EVENT_TICK = 'illa_Ticker_EVENT_TICK';
         return Ticker;
-    })(illa.IventHandler);
+    })(illa.EventHandler);
     illa.Ticker = Ticker;
 })(illa || (illa = {}));
 var berek;
@@ -553,7 +557,7 @@ var illa;
             } else {
                 this.failCount++;
                 if (desc) {
-                    this.warn('Test failed:', desc);
+                    this.warn('Test failed: ' + desc);
                 } else {
                     throw 'Test failed.';
                 }
@@ -573,7 +577,7 @@ var illa;
         };
 
         UnitTest.prototype.printStats = function () {
-            this.info(this.testCount, 'tests completed:', this.successCount, 'succeeded,', this.failCount, 'failed.');
+            this.info(this.testCount + ' tests completed: ' + this.successCount + ' succeeded, ' + this.failCount + ' failed.');
         };
 
         UnitTest.prototype.info = function () {
