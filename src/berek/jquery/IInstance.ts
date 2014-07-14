@@ -13,6 +13,7 @@
 /// <reference path='ISizeFunction.ts'/>
 /// <reference path='ITextFunction.ts'/>
 /// <reference path='IValFunction.ts'/>
+/// <reference path='IWidthFunction.ts'/>
 
 module berek.jquery {
 	export interface IInstance {
@@ -21,8 +22,15 @@ module berek.jquery {
 		
 		
 		
+		hasClass(className: string): boolean;
+		
+		
+		
 		addClass(className: string): IInstance;
 		addClass(fn: IAddClassFunction): IInstance;
+		
+		removeClass(className: string): IInstance;
+		removeClass(fn: IAddClassFunction): IInstance;
 
 
 
@@ -130,9 +138,9 @@ module berek.jquery {
 		
 		
 		
+		data(key: string): any;
 		data(key: string, value: any): IInstance;
 		data(obj: Object): IInstance;
-		data(key: string): any;
 		data(): Object;
 		
 		
@@ -193,6 +201,14 @@ module berek.jquery {
 		
 		
 		
+		filter(selector: string): IInstance;
+		filter(fn: IIsFunction): IInstance;
+		filter(selection: IInstance): IInstance;
+		filter(element: HTMLElement): IInstance;
+		filter(elements: HTMLElement[]): IInstance;
+		
+		
+		
 		scrollLeft(): number;
 		scrollLeft(value: number): IInstance;
 		
@@ -231,5 +247,70 @@ module berek.jquery {
 		val(value: string): IInstance;
 		val(values: string[]): IInstance;
 		val(fn: IValFunction): IInstance;
+		
+		
+		
+		trigger(eventType: string, extraParameters: any[]): IInstance;
+		trigger(eventType: string, extraParameters?: Object): IInstance;
+		trigger(event: IEvent, extraParameters: any[]): IInstance;
+		trigger(event: IEvent, extraParameters?: Object): IInstance;
+		
+		
+		
+		triggerHandler(eventType: string, extraParameters?: any[]): any;
+		
+		
+		
+		find(selector: string): IInstance;
+		find(selection: IInstance): IInstance;
+		find(element: HTMLElement): IInstance;
+		
+		
+		
+		width(): number;
+		width(value: number): IInstance;
+		width(fn: IWidthFunctionNumber): IInstance;
+		width(fn: IWidthFunctionString): IInstance;
+		
+		height(): number;
+		height(value: number): IInstance;
+		height(fn: IWidthFunctionNumber): IInstance;
+		height(fn: IWidthFunctionString): IInstance;
+		
+		
+		
+		outerWidth(includeMargin?: boolean): number;
+		
+		outerHeight(includeMargin?: boolean): number;
+		
+		
+		
+		hide(options: IAnimationOptions): IInstance;
+		hide(duration: number, easing: string, complete?: Function): IInstance;
+		hide(duration?: number, complete?: Function): IInstance;
+		
+		show(options: IAnimationOptions): IInstance;
+		show(duration: number, easing: string, complete?: Function): IInstance;
+		show(duration?: number, complete?: Function): IInstance;
+		
+		
+		
+		focus(eventData: Object, handler: IEventHandler);
+		focus(handler?: IEventHandler);
+		
+		
+		
+		index(selector: string): number;
+		index(jq: IInstance): number;
+		index(element?: HTMLElement): number;
+		
+		
+		
+		children(selector?: string): IInstance;
+		
+		
+		
+		stop(queue: string, clearQueue?: boolean, jumpToEnd?: boolean);
+		stop(clearQueue?: boolean, jumpToEnd?: boolean);
 	}
 }

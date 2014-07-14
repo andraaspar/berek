@@ -1,3 +1,4 @@
+/// <reference path='IAJAXSettings.ts'/>
 /// <reference path='IInstance.ts'/>
 /// <reference path='IStaticEvent.ts'/>
 /// <reference path='IEventConstructor.ts'/>
@@ -21,5 +22,8 @@ module berek.jquery {
 		event: IStaticEvent;
 		
 		Event: IEventConstructor;
+		
+		ajax(url: string, settings?: IAJAXSettings): IXHR;
+		ajax(settings?: IAJAXSettings): IXHR;
 	}
 }
