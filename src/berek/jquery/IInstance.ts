@@ -5,6 +5,7 @@
 /// <reference path='IClassToggleFunction.ts'/>
 /// <reference path='ICSSFunction.ts'/>
 /// <reference path='ICSSObject.ts'/>
+/// <reference path='IEachFunction.ts'/>
 /// <reference path='IHTMLFunction.ts'/>
 /// <reference path='IIsFunction.ts'/>
 /// <reference path='IOffsetFunction.ts'/>
@@ -114,13 +115,29 @@ module berek.jquery {
 
 
 
-		next(selector?: string): IInstance;
-
-		parent(selector?: string): IInstance;
+		siblings(selector: string): IInstance;
+		siblings(selector: HTMLElement): IInstance;
+		siblings(selector?: HTMLElement[]): IInstance;
 		
-		parents(selector?: string): IInstance;
+		next(selector: string): IInstance;
+		next(selector: HTMLElement): IInstance;
+		next(selector?: HTMLElement[]): IInstance;
 		
-		prev(selector?: string): IInstance;
+		parent(selector: string): IInstance;
+		parent(selector: HTMLElement): IInstance;
+		parent(selector?: HTMLElement[]): IInstance;
+		
+		parents(selector: string): IInstance;
+		parents(selector: HTMLElement): IInstance;
+		parents(selector?: HTMLElement[]): IInstance;
+		
+		prev(selector: string): IInstance;
+		prev(selector: HTMLElement): IInstance;
+		prev(selector?: HTMLElement[]): IInstance;
+		
+		children(selector: string): IInstance;
+		children(selector: HTMLElement): IInstance;
+		children(selector?: HTMLElement[]): IInstance;
 
 
 
@@ -306,11 +323,15 @@ module berek.jquery {
 		
 		
 		
-		children(selector?: string): IInstance;
-		
-		
-		
 		stop(queue: string, clearQueue?: boolean, jumpToEnd?: boolean);
 		stop(clearQueue?: boolean, jumpToEnd?: boolean);
+		
+		
+		
+		serializeArray(): any[];
+		
+		
+		
+		each(fn: IEachFunction): IInstance;
 	}
 }

@@ -25,5 +25,8 @@ module berek.jquery {
 		
 		ajax(url: string, settings?: IAJAXSettings): IXHR;
 		ajax(settings?: IAJAXSettings): IXHR;
+		
+		each<T>(array: T[], callback: (index: number, value: T) => any): Object;
+		each(object: Object, callback: (propertyName: string, value: any) => any): Object;
 	}
 }

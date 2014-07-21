@@ -11,7 +11,7 @@ module berek {
 			if (box) {
 				this.box = box;
 			} else {
-				this.box = berek.$('<div>');
+				this.box = jquery.$('<div>');
 			}
 			this.box.addClass(ScrollbarUtil.CSS_CLASS);
 			this.box.appendTo('body');

@@ -9,7 +9,7 @@ module berek {
 
 		info(...r): void {
 			if (this.printTarget) {
-				var out = berek.$('<p>').text(r.join(' '));
+				var out = jquery.$('<p>').text(r.join(' '));
 				this.printTarget.append(out);
 			} else {
 				super.info.apply(this, r);
@@ -18,7 +18,7 @@ module berek {
 
 		warn(...r): void {
 			if (this.printTarget) {
-				var out = berek.$('<p>').text(r.join(' ')).prepend('<b>WARNING: </b>');
+				var out = jquery.$('<p>').text(r.join(' ')).prepend('<b>WARNING: </b>');
 				this.printTarget.append(out);
 			} else {
 				super.warn.apply(this, r);
