@@ -8,16 +8,18 @@
 /// <reference path='../../src/berek/UnitTest.ts'/>
 
 module test1 {
+	import jquery = berek.jquery;
+	
 	export class Main {
 		unitTest: illa.UnitTest;
 		ticker: illa.Ticker;
 
 		constructor() {
-			berek.$(illa.bind(this.onDOMLoaded, this));
+			jquery.$(illa.bind(this.onDOMLoaded, this));
 		}
 
 		onDOMLoaded(): void {
-			var u = this.unitTest = new berek.UnitTest(berek.$('body'));
+			var u = this.unitTest = new berek.UnitTest(jquery.$('body'));
 			u.info('Testing...');
 
 
@@ -28,11 +30,11 @@ module test1 {
 			u.assert(scrollbarUtil.getDefaultSize(illa.Axis2D.X) >= 0, 'ScrollbarUtil.getDefaultSize 3');
 			u.assert(scrollbarUtil.getDefaultSize(illa.Axis2D.Y) >= 0, 'ScrollbarUtil.getDefaultSize 4');
 
-			var scrolling = berek.$('<div style="overflow-x: scroll; overflow-y: scroll">');
-			var scrolling2 = berek.$('<div style="overflow: scroll">');
-			var nonScrolling = berek.$('<div style="overflow-x: hidden; overflow-y: hidden">');
-			var nonScrolling2 = berek.$('<div style="overflow-x: visible; overflow-y: visible">');
-			var nonScrolling3 = berek.$('<div style="overflow: visible">');
+			var scrolling = jquery.$('<div style="overflow-x: scroll; overflow-y: scroll">');
+			var scrolling2 = jquery.$('<div style="overflow: scroll">');
+			var nonScrolling = jquery.$('<div style="overflow-x: hidden; overflow-y: hidden">');
+			var nonScrolling2 = jquery.$('<div style="overflow-x: visible; overflow-y: visible">');
+			var nonScrolling3 = jquery.$('<div style="overflow: visible">');
 
 			u.assert(berek.ScrollbarUtil.isVisibleOn(scrolling, illa.Axis2D.X), 'ScrollbarUtil.isVisibleOn 1');
 			u.assert(berek.ScrollbarUtil.isVisibleOn(scrolling, illa.Axis2D.Y), 'ScrollbarUtil.isVisibleOn 2');

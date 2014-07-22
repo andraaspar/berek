@@ -8,18 +8,21 @@ module berek.jquery {
 
 
 
-		done(fn: IXHRDoneFunction);
+		always(callback: IXHRAlwaysFunction, ...callbacks: IXHRAlwaysFunction[]): IXHR;
+		always(callback: IXHRAlwaysFunction[], ...callbacks: IXHRAlwaysFunction[][]): IXHR;
 
 
 
-		fail(fn: IXHRFailFunction);
+		done(callback: IXHRDoneFunction, ...callbacks: IXHRDoneFunction[]): IXHR;
+		done(callback: IXHRDoneFunction[], ...callbacks: IXHRDoneFunction[][]): IXHR;
 
 
 
-		always(fn: IXHRAlwaysFunction);
+		fail(callback: IXHRFailFunction, ...callbacks: IXHRFailFunction[]): IXHR;
+		fail(callback: IXHRFailFunction[], ...callbacks: IXHRFailFunction[][]): IXHR;
 
 
 
-		then(doneFn: IXHRDoneFunction, failFn: IXHRFailFunction);
+		then(doneFilter: IXHRDoneFunction, failFilter?: IXHRFailFunction, progressFilter?: Function): IPromise;
 	}
 }

@@ -1,4 +1,7 @@
 /// <reference path='IAddClassFunction.ts'/>
+/// <reference path='IAJAXCompleteFunction.ts'/>
+/// <reference path='IAJAXErrorFunction.ts'/>
+/// <reference path='IAJAXSuccessFunction.ts'/>
 /// <reference path='IAnimationOptions.ts'/>
 /// <reference path='IAppendFunction.ts'/>
 /// <reference path='IAttrFunction.ts'/>
@@ -138,6 +141,10 @@ module berek.jquery {
 		children(selector: string): IInstance;
 		children(selector: HTMLElement): IInstance;
 		children(selector?: HTMLElement[]): IInstance;
+		
+		addBack(selector: string): IInstance;
+		addBack(selector: HTMLElement): IInstance;
+		addBack(selector?: HTMLElement[]): IInstance;
 
 
 
@@ -315,6 +322,18 @@ module berek.jquery {
 		focus(eventData: Object, handler: IEventHandler);
 		focus(handler?: IEventHandler);
 		
+		blur(eventData: Object, handler: IEventHandler);
+		blur(handler?: IEventHandler);
+		
+		change(eventData: Object, handler: IEventHandler);
+		change(handler?: IEventHandler);
+		
+		click(eventData: Object, handler: IEventHandler);
+		click(handler?: IEventHandler);
+		
+		dblclick(eventData: Object, handler: IEventHandler);
+		dblclick(handler?: IEventHandler);
+		
 		
 		
 		index(selector: string): number;
@@ -333,5 +352,56 @@ module berek.jquery {
 		
 		
 		each(fn: IEachFunction): IInstance;
+		
+		
+		
+		add(selectorOrHTML: string, context?: HTMLElement): IInstance;
+		add(selectorOrHTML: string, context?: Document): IInstance;
+		add(selectorOrHTML: string, context?: IInstance): IInstance;
+		add(element: HTMLElement): IInstance;
+		add(elements: HTMLElement[]): IInstance;
+		add(selection: IInstance): IInstance;
+		
+		
+		
+		ajaxComplete(handler: IAJAXCompleteFunction): IInstance;
+		
+		ajaxSend(handler: IAJAXCompleteFunction): IInstance;
+		
+		
+		
+		ajaxError(handler: IAJAXErrorFunction): IInstance;
+		
+		
+		
+		ajaxStart(handler: Function): IInstance;
+		
+		ajaxStop(handler: Function): IInstance;
+		
+		
+		
+		ajaxSuccess(handler: IAJAXSuccessFunction): IInstance;
+		
+		
+		
+		animate(properties: Object, duration?: number, easing?: string, complete?: Function): IInstance;
+		animate(properties: Object, duration?: string, easing?: string, complete?: Function): IInstance;
+		animate(properties: Object, options: IAnimationOptions): IInstance;
+		
+		
+		
+		clearQueue(queueName?: string): IInstance;
+		
+		
+		
+		clone(withDataAndEvents?: boolean, deepWithDataAndEvents?: boolean): IInstance;
+		
+		
+		
+		contents(): IInstance;
+		
+		
+		
+		promise(type?: string, target?: Object): IPromise;
 	}
 }
