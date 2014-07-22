@@ -1,5 +1,5 @@
 module berek.jquery {
-	export interface IEachFunction {
-		(index: number, element: Element): any;
+	export interface IEachFunction<T> {
+		(index: number, element: T): any;
 	}
 }

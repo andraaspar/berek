@@ -3,7 +3,8 @@
 /// <reference path='../../lib/illa/Log.ts'/>
 /// <reference path='../../lib/illa/StringUtil.ts'/>
 /// <reference path='../../lib/illa/Ticker.ts'/>
-/// <reference path='../../src/berek/_module.ts'/>
+
+/// <reference path='../../src/berek/jquery/_module.ts'/>
 /// <reference path='../../src/berek/ScrollbarUtil.ts'/>
 /// <reference path='../../src/berek/UnitTest.ts'/>
 

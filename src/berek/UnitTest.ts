@@ -1,5 +1,6 @@
 /// <reference path='../../lib/illa/UnitTest.ts'/>
-/// <reference path='_module.ts'/>
+
+/// <reference path='jquery/_module.ts'/>
 
 module berek {
 	export class UnitTest extends illa.UnitTest {

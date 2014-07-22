@@ -104,17 +104,17 @@ module berek.jquery {
 
 
 
-		innerWidth(): number;
 		innerWidth(value: string): IInstance;
 		innerWidth(value: number): IInstance;
 		innerWidth(fn: ISizeFunctionNumber): IInstance;
 		innerWidth(fn: ISizeFunctionString): IInstance;
+		innerWidth(): number;
 
-		innerHeight(): number;
 		innerHeight(value: string): IInstance;
 		innerHeight(value: number): IInstance;
 		innerHeight(fn: ISizeFunctionNumber): IInstance;
 		innerHeight(fn: ISizeFunctionString): IInstance;
+		innerHeight(): number;
 
 
 
@@ -145,26 +145,40 @@ module berek.jquery {
 		addBack(selector: string): IInstance;
 		addBack(selector: HTMLElement): IInstance;
 		addBack(selector?: HTMLElement[]): IInstance;
+		
+		detach(selector: string): IInstance;
+		detach(selector: HTMLElement): IInstance;
+		detach(selector?: HTMLElement[]): IInstance;
+		
+		remove(selector: string): IInstance;
+		remove(selector: HTMLElement): IInstance;
+		remove(selector?: HTMLElement[]): IInstance;
+		
+		
+		
+		has(selector: string): IInstance;
+		has(contained: IInstance): IInstance;
+		has(contained: HTMLElement): IInstance;
 
 
 
-		text(): string;
 		text(text: string): IInstance;
 		text(text: number): IInstance;
 		text(text: boolean): IInstance;
 		text(fn: ITextFunction): IInstance;
+		text(): string;
 		
 		
 		
-		html(): string;
 		html(htmlString: string): IInstance;
 		html(fn: IHTMLFunction): IInstance;
+		html(): string;
 		
 		
 		
-		data(key: string): any;
 		data(key: string, value: any): IInstance;
 		data(obj: Object): IInstance;
+		data(key: string): any;
 		data(): Object;
 		
 		
@@ -189,25 +203,11 @@ module berek.jquery {
 		
 		
 		
-		toggle(complete: Function): IInstance;
-		toggle(duration: number, complete?: Function): IInstance;
-		toggle(options: IAnimationOptions): IInstance;
-		toggle(duration: number, easing?: string, complete?: Function): IInstance;
-		toggle(flag?: boolean): IInstance;
-		
-		
-		
 		position(): IPositionObject;
 		
-		offset(): IPositionObject;
 		offset(coordinates: IPositionObject): IInstance;
 		offset(fn: IOffsetFunction): IInstance;
-		
-		
-		
-		detach(selector?: string): IInstance;
-		
-		remove(selector?: string): IInstance;
+		offset(): IPositionObject;
 		
 		
 		
@@ -233,11 +233,11 @@ module berek.jquery {
 		
 		
 		
-		scrollLeft(): number;
 		scrollLeft(value: number): IInstance;
+		scrollLeft(): number;
 		
-		scrollTop(): number;
 		scrollTop(value: number): IInstance;
+		scrollTop(): number;
 		
 		
 		
@@ -267,10 +267,10 @@ module berek.jquery {
 		
 		
 		
-		val(): any;
 		val(value: string): IInstance;
 		val(values: string[]): IInstance;
 		val(fn: IValFunction): IInstance;
+		val(): any;
 		
 		
 		
@@ -291,15 +291,15 @@ module berek.jquery {
 		
 		
 		
-		width(): number;
 		width(value: number): IInstance;
 		width(fn: IWidthFunctionNumber): IInstance;
 		width(fn: IWidthFunctionString): IInstance;
+		width(): number;
 		
-		height(): number;
 		height(value: number): IInstance;
 		height(fn: IWidthFunctionNumber): IInstance;
 		height(fn: IWidthFunctionString): IInstance;
+		height(): number;
 		
 		
 		
@@ -310,29 +310,80 @@ module berek.jquery {
 		
 		
 		hide(options: IAnimationOptions): IInstance;
-		hide(duration: number, easing: string, complete?: Function): IInstance;
+		hide(duration: number, easing?: string, complete?: Function): IInstance;
+		hide(duration: string, easing?: string, complete?: Function): IInstance;
 		hide(duration?: number, complete?: Function): IInstance;
+		hide(duration?: string, complete?: Function): IInstance;
 		
 		show(options: IAnimationOptions): IInstance;
-		show(duration: number, easing: string, complete?: Function): IInstance;
+		show(duration: number, easing?: string, complete?: Function): IInstance;
+		show(duration: string, easing?: string, complete?: Function): IInstance;
 		show(duration?: number, complete?: Function): IInstance;
+		show(duration?: string, complete?: Function): IInstance;
+		
+		fadeIn(options: IAnimationOptions): IInstance;
+		fadeIn(duration: number, easing?: string, complete?: Function): IInstance;
+		fadeIn(duration: string, easing?: string, complete?: Function): IInstance;
+		fadeIn(duration?: number, complete?: Function): IInstance;
+		fadeIn(duration?: string, complete?: Function): IInstance;
+		
+		fadeOut(options: IAnimationOptions): IInstance;
+		fadeOut(duration: number, easing?: string, complete?: Function): IInstance;
+		fadeOut(duration: string, easing?: string, complete?: Function): IInstance;
+		fadeOut(duration?: number, complete?: Function): IInstance;
+		fadeOut(duration?: string, complete?: Function): IInstance;
 		
 		
 		
-		focus(eventData: Object, handler: IEventHandler);
-		focus(handler?: IEventHandler);
+		toggle(options: IAnimationOptions): IInstance;
+		toggle(duration: number, easing?: string, complete?: Function): IInstance;
+		toggle(duration: string, easing?: string, complete?: Function): IInstance;
+		toggle(duration: number, complete?: Function): IInstance;
+		toggle(duration: string, complete?: Function): IInstance;
+		toggle(flag?: boolean): IInstance;
 		
-		blur(eventData: Object, handler: IEventHandler);
-		blur(handler?: IEventHandler);
 		
-		change(eventData: Object, handler: IEventHandler);
-		change(handler?: IEventHandler);
 		
-		click(eventData: Object, handler: IEventHandler);
-		click(handler?: IEventHandler);
+		fadeTo(duration: number, opacity: number, easing?: string, complete?: Function): IInstance;
+		fadeTo(duration: string, opacity: number, easing?: string, complete?: Function): IInstance;
+		fadeTo(duration: number, opacity: number, complete?: Function): IInstance;
+		fadeTo(duration: string, opacity: number, complete?: Function): IInstance;
 		
-		dblclick(eventData: Object, handler: IEventHandler);
-		dblclick(handler?: IEventHandler);
+		
+		
+		fadeToggle(options: IAnimationOptions): IInstance;
+		fadeToggle(duration?: number, easing?: string, complete?: Function): IInstance;
+		fadeToggle(duration?: string, easing?: string, complete?: Function): IInstance;
+		
+		
+		
+		focus(eventData: Object, handler: IEventHandler): IInstance;
+		focus(handler?: IEventHandler): IInstance;
+		
+		blur(eventData: Object, handler: IEventHandler): IInstance;
+		blur(handler?: IEventHandler): IInstance;
+		
+		change(eventData: Object, handler: IEventHandler): IInstance;
+		change(handler?: IEventHandler): IInstance;
+		
+		click(eventData: Object, handler: IEventHandler): IInstance;
+		click(handler?: IEventHandler): IInstance;
+		
+		dblclick(eventData: Object, handler: IEventHandler): IInstance;
+		dblclick(handler?: IEventHandler): IInstance;
+		
+		
+		
+		focusin(eventData: Object, handler: IEventHandler): IInstance;
+		focusin(handler: IEventHandler): IInstance;
+		
+		focusout(eventData: Object, handler: IEventHandler): IInstance;
+		focusout(handler: IEventHandler): IInstance;
+		
+		
+		
+		hover(handlerIn: IEventHandler, handlerOut: IEventHandler): IInstance;
+		hover(handlerInOut: IEventHandler): IInstance;
 		
 		
 		
@@ -351,7 +402,7 @@ module berek.jquery {
 		
 		
 		
-		each(fn: IEachFunction): IInstance;
+		each(fn: IEachFunction<HTMLElement>): IInstance;
 		
 		
 		
@@ -392,16 +443,45 @@ module berek.jquery {
 		
 		clearQueue(queueName?: string): IInstance;
 		
+		dequeue(queueName?: string): IInstance;
+		
+		finish(queueName?: string): IInstance;
+		
 		
 		
 		clone(withDataAndEvents?: boolean, deepWithDataAndEvents?: boolean): IInstance;
 		
 		
 		
+		promise(type?: string, target?: Object): IPromise;
+		
+		
+		
+		delay(duration: number, queueName?: string): IInstance;
+		
+		
+		
 		contents(): IInstance;
 		
+		empty(): IInstance;
+		
+		end(): IInstance;
+		
+		first(): IInstance;
+		
+		last(): IInstance;
 		
 		
-		promise(type?: string, target?: Object): IPromise;
+		
+		get(index: number): HTMLElement;
+		get(): HTMLElement[];
+		
+		
+		
+		jquery: string;
+		
+		
+		
+		extend(object: Object): Object;
 	}
 }

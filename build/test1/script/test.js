@@ -460,7 +460,10 @@ var illa;
 })(illa || (illa = {}));
 var berek;
 (function (berek) {
-    berek.$ = window['jQuery'];
+    (function (jquery) {
+        jquery.$ = window['jQuery'];
+    })(berek.jquery || (berek.jquery = {}));
+    var jquery = berek.jquery;
 })(berek || (berek = {}));
 var illa;
 (function (illa) {
@@ -479,7 +482,7 @@ var berek;
             if (box) {
                 this.box = box;
             } else {
-                this.box = berek.$('<div>');
+                this.box = berek.jquery.$('<div>');
             }
             this.box.addClass(ScrollbarUtil.CSS_CLASS);
             this.box.appendTo('body');
@@ -613,7 +616,7 @@ var berek;
                 r[_i] = arguments[_i + 0];
             }
             if (this.printTarget) {
-                var out = berek.$('<p>').text(r.join(' '));
+                var out = berek.jquery.$('<p>').text(r.join(' '));
                 this.printTarget.append(out);
             } else {
                 _super.prototype.info.apply(this, r);
@@ -626,7 +629,7 @@ var berek;
                 r[_i] = arguments[_i + 0];
             }
             if (this.printTarget) {
-                var out = berek.$('<p>').text(r.join(' ')).prepend('<b>WARNING: </b>');
+                var out = berek.jquery.$('<p>').text(r.join(' ')).prepend('<b>WARNING: </b>');
                 this.printTarget.append(out);
             } else {
                 _super.prototype.warn.apply(this, r);
@@ -638,12 +641,14 @@ var berek;
 })(berek || (berek = {}));
 var test1;
 (function (test1) {
+    var jquery = berek.jquery;
+
     var Main = (function () {
         function Main() {
-            berek.$(illa.bind(this.onDOMLoaded, this));
+            jquery.$(illa.bind(this.onDOMLoaded, this));
         }
         Main.prototype.onDOMLoaded = function () {
-            var u = this.unitTest = new berek.UnitTest(berek.$('body'));
+            var u = this.unitTest = new berek.UnitTest(jquery.$('body'));
             u.info('Testing...');
 
             var scrollbarUtil = new berek.ScrollbarUtil();
@@ -652,11 +657,11 @@ var test1;
             u.assert(scrollbarUtil.getDefaultSize(0 /* X */) >= 0, 'ScrollbarUtil.getDefaultSize 3');
             u.assert(scrollbarUtil.getDefaultSize(1 /* Y */) >= 0, 'ScrollbarUtil.getDefaultSize 4');
 
-            var scrolling = berek.$('<div style="overflow-x: scroll; overflow-y: scroll">');
-            var scrolling2 = berek.$('<div style="overflow: scroll">');
-            var nonScrolling = berek.$('<div style="overflow-x: hidden; overflow-y: hidden">');
-            var nonScrolling2 = berek.$('<div style="overflow-x: visible; overflow-y: visible">');
-            var nonScrolling3 = berek.$('<div style="overflow: visible">');
+            var scrolling = jquery.$('<div style="overflow-x: scroll; overflow-y: scroll">');
+            var scrolling2 = jquery.$('<div style="overflow: scroll">');
+            var nonScrolling = jquery.$('<div style="overflow-x: hidden; overflow-y: hidden">');
+            var nonScrolling2 = jquery.$('<div style="overflow-x: visible; overflow-y: visible">');
+            var nonScrolling3 = jquery.$('<div style="overflow: visible">');
 
             u.assert(berek.ScrollbarUtil.isVisibleOn(scrolling, 0 /* X */), 'ScrollbarUtil.isVisibleOn 1');
             u.assert(berek.ScrollbarUtil.isVisibleOn(scrolling, 1 /* Y */), 'ScrollbarUtil.isVisibleOn 2');
