@@ -2,8 +2,8 @@
 
 module berek.jquery {
 	export interface IEventConstructor {
-		(src: string, props?: Object): IEvent;
-		(src: IEvent, props?: Object): IEvent;
-		(src: Event, props?: Object): IEvent;
+		(src: string, props?: any): IEvent;
+		(src: IEvent, props?: any): IEvent;
+		(src: Event, props?: any): IEvent;
 	}
 }

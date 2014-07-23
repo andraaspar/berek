@@ -2,7 +2,7 @@
 
 module berek.jquery {
 	export interface IAJAXTransportObject {
-		send(headers: Object, completeCallback: IAJAXTransportCompleteFunction);
+		send(headers: any, completeCallback: IAJAXTransportCompleteFunction);
 		abort();
 	}
 }

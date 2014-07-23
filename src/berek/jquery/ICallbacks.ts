@@ -13,7 +13,7 @@ module berek.jquery {
 		
 		fired(): boolean;
 		
-		fireWith(context?: Object, args?: any): ICallbacks;
+		fireWith(context?: any, args?: any): ICallbacks;
 		
 		has(callback: Function): boolean;
 		

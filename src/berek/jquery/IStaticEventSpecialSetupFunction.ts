@@ -2,6 +2,6 @@
 
 module berek.jquery {
 	export interface IStaticEventSpecialSetupFunction {
-		(data, namespaces: string[], eventHandler: IEventHandler): any;
+		(data: any, namespaces: string[], eventHandler: IEventHandler): any;
 	}
 }

@@ -3,7 +3,7 @@
 module berek.jquery {
 	export interface IStaticEventSpecialHandleObject {
 		type: string;
-		data;
+		data: any;
 		namespace: string;
 		handler: IEventHandler;
 		guid: number;

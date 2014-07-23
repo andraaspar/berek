@@ -18,15 +18,8 @@
 
 module berek.jquery {
 	export interface IStatic {
-		(selector: string, context?: HTMLElement): IInstance;
-		(selector: string, context?: Document): IInstance;
-		(selector: string, context?: IInstance): IInstance;
-		(element: HTMLElement): IInstance;
-		(elements: HTMLElement[]): IInstance;
-		(object: Object): IInstance;
-		(selection: IInstance): IInstance;
-		(html: string, attributesOrOwnerDocument?: Object): IInstance;
-		(callback: () => any): IInstance;
+		(selectorOrHTML: string, contextOrAttributesOrOwnerDocument?: any): IInstance;
+		(selectionOrElementOrArrayOrObjectOrCallback?: any): IInstance;
 		
 		
 		
@@ -85,7 +78,7 @@ module berek.jquery {
 		
 		
 		
-		contains(container: HTMLElement, contained: HTMLElement): boolean;
+		contains(container: Element, contained: Element): boolean;
 		
 		
 		
@@ -93,13 +86,13 @@ module berek.jquery {
 		
 		
 		
-		data<T>(element: HTMLElement, key: string, value: T): T;
-		data(element: HTMLElement, key: string): any;
-		data(element: HTMLElement): Object;
+		data<T>(element: Element, key: string, value: T): T;
+		data(element: Element, key: string): any;
+		data(element: Element): any;
 		
 		
 		
-		dequeue(element: HTMLElement, queueName?: string);
+		dequeue(element: Element, queueName?: string);
 		
 		
 		
@@ -107,8 +100,8 @@ module berek.jquery {
 		
 		
 		
-		extend(deep: boolean, target: Object, object1: Object, ...objectN: Object[]): Object;
-		extend(target: Object, ...objectN: Object[]): Object;
+		extend(deep: boolean, target: any, object1: any, ...objectN: any[]): any;
+		extend(target: any, ...objectN: any[]): any;
 		
 		
 		
@@ -116,13 +109,11 @@ module berek.jquery {
 		
 		
 		
-		get(url: string, data?: string, success?: IGetSuccessFunction, dataType?: string): IXHR;
-		get(url: string, data?: Object, success?: IGetSuccessFunction, dataType?: string): IXHR;
+		get(url: string, data?: any, success?: IGetSuccessFunction, dataType?: string): IXHR;
 		
 		
 		
-		getJSON(url: string, data?: string, success?: IGetSuccessFunction): IXHR;
-		getJSON(url: string, data?: Object, success?: IGetSuccessFunction): IXHR;
+		getJSON(url: string, data?: any, success?: IGetSuccessFunction): IXHR;
 		
 		
 		
@@ -138,7 +129,7 @@ module berek.jquery {
 		
 		
 		
-		hasData(element: HTMLElement): boolean;
+		hasData(element: Element): boolean;
 		
 		
 		
@@ -162,7 +153,7 @@ module berek.jquery {
 		
 		
 		
-		makeArray(obj: Object): any[];
+		makeArray(obj: any): any[];
 		
 		
 		
@@ -180,5 +171,61 @@ module berek.jquery {
 		
 		
 		now(): number;
+		
+		
+		
+		param(obj: any, traditional?: boolean): string;
+		
+		
+		
+		parseHTML(data: string, context?: Element, keepScripts?: boolean);
+		
+		
+		
+		parseJSON(json: string): any;
+		
+		
+		
+		parseXML(data: string): XMLDocument;
+		
+		
+		
+		post(url: string, data?: any, success?: IGetSuccessFunction, dataType?: string): IXHR;
+		
+		
+		
+		proxy<T extends Function>(fn: T, context: any): T;
+		proxy(fn: Function, context: any, ...additionalArguments: any[]): Function;
+		proxy(context: any, name: string, ...additionalArguments: any[]): Function;
+		
+		
+		
+		queue(element: Element, queueName: string, newQueue: any[]): IInstance;
+		queue(element: Element, queueName: string, callback: Function): IInstance;
+		queue(element: Element, queueName?: string): any[];
+		
+		
+		
+		removeData(element: Element, name?: string): IInstance;
+		
+		
+		
+		support: any;
+		
+		
+		
+		trim(str: string): string;
+		
+		
+		
+		type(obj: any): string;
+		
+		
+		
+		unique<T extends any[]>(array: T): T;
+		
+		
+		
+		when(deferred: IDeferred, ...deferreds: IDeferred[]): IPromise;
 	}
 }

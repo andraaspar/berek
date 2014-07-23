@@ -2,7 +2,7 @@
 
 module berek.jquery {
 	export interface ITween {
-		elem: HTMLElement;
+		elem: Element;
 		prop: string;
 		easing: any;
 		options: IAnimationOptions;

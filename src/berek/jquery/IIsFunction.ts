@@ -1,5 +1,5 @@
 module berek.jquery {
 	export interface IIsFunction {
-		(index: number, element: HTMLElement): boolean;
+		(index: number, element: Element): boolean;
 	}
 }

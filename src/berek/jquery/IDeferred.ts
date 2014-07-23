@@ -19,11 +19,11 @@ module berek.jquery {
 		
 		
 		
-		notifyWith(context: Object, args: any[]): IDeferred;
+		notifyWith(context: any, args: any[]): IDeferred;
 		
-		rejectWith(context: Object, args: any[]): IDeferred;
+		rejectWith(context: any, args: any[]): IDeferred;
 		
-		resolveWith(context: Object, args: any[]): IDeferred;
+		resolveWith(context: any, args: any[]): IDeferred;
 		
 		
 		
@@ -32,6 +32,6 @@ module berek.jquery {
 		
 		
 		
-		promise(target?: Object): IPromise;
+		promise(target?: any): IPromise;
 	}
 }

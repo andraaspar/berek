@@ -5,4 +5,7 @@ module berek.jquery {
 	export interface IMapFunctionObject<T, U> {
 		(propertyOfObject: T, key: string): U;
 	}
+	export interface IMapFunctionElement {
+		(index: number, domElement: Element): any;
+	}
 }

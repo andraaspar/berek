@@ -1,8 +1,8 @@
 module berek.jquery {
 	export interface ICSSHookObject {
-		get(elem: HTMLElement, computed, extra);
+		get(elem: Element, computed, extra);
 		
-		set(elem: HTMLElement, value: string);
-		set(elem: HTMLElement, value: number);
+		set(elem: Element, value: string);
+		set(elem: Element, value: number);
 	}
 }

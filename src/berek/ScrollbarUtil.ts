@@ -21,7 +21,7 @@ module berek {
 			var result = NaN;
 
 			if (isNaN(this.defaultWidth)) {
-				var boxElement = this.box[0];
+				var boxElement = <HTMLElement>this.box[0];
 				this.defaultWidth = boxElement.offsetWidth - boxElement.clientWidth;
 				this.defaultHeight = boxElement.offsetHeight - boxElement.clientHeight;
 			}

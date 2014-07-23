@@ -1,5 +1,5 @@
 module berek.jquery {
 	export interface IAJAXSettingsBeforeSendFunction {
-		(jqXHR: IXHR, settings: Object);
+		(jqXHR: IXHR, settings: any);
 	}
 }

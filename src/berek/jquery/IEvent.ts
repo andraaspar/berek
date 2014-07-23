@@ -8,8 +8,8 @@ module berek.jquery {
 		stopPropagation(): void;
 		stopImmediatePropagation(): void;
 		
-		target: HTMLElement;
-		relatedTarget: HTMLElement;
+		target: Element;
+		relatedTarget: Element;
 		pageX: number;
 		pageY: number;
 		which: number;
@@ -23,13 +23,13 @@ module berek.jquery {
 		clientX: number;
 		clientY: number;
 		ctrlKey: boolean;
-		currentTarget: HTMLElement;
+		currentTarget: Element;
 		data: any;
 		detail: number;
 		eventPhase: number;
 		offsetX: number;
 		offsetY: number;
-		originalTarget: HTMLElement;
+		originalTarget: Element;
 		prevValue: any;
 		screenX: number;
 		screenY: number;
@@ -37,7 +37,7 @@ module berek.jquery {
 		view: Window;
 		
 		originalEvent: Event;
-		delegateTarget: HTMLElement;
+		delegateTarget: Element;
 		namespace: string;
 		result: any;
 		timeStamp: number;

@@ -8,22 +8,22 @@
 
 module berek.jquery {
 	export interface IAJAXSettings {
-		accepts?: Object;
+		accepts?: any;
 		async?: boolean;
 		beforeSend?: IAJAXSettingsBeforeSendFunction;
 		cache?: boolean;
 		complete?: IAJAXSettingsCompleteFunction;
 		contents?: IAJAXSettingsContentsObject;
 		contentType?: string;
-		context?: Object;
-		converters?: Object;
+		context?: any;
+		converters?: any;
 		crossDomain?: boolean;
 		data?: any;
 		dataFilter?: IAJAXSettingsDataFilterFunction;
 		dataType?: string;
 		error?: IXHRFailFunction;
 		global?: boolean;
-		headers?: Object;
+		headers?: any;
 		ifModified?: boolean;
 		isLocal?: boolean;
 		jsonp?: string;
@@ -32,7 +32,7 @@ module berek.jquery {
 		password?: string;
 		processData?: boolean;
 		scriptCharset?: string;
-		statusCode?: Object;
+		statusCode?: any;
 		success?: IXHRDoneFunction;
 		timeout?: number;
 		traditional?: boolean;
@@ -40,6 +40,6 @@ module berek.jquery {
 		url?: string;
 		username?: string;
 		xhr?: IAJAXSettingsXHRFunction;
-		xhrFields?: Object;
+		xhrFields?: any;
 	}
 }
