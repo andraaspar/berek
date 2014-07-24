@@ -1,5 +1,7 @@
 /// <reference path='../../lib/illa/Axis2D.ts'/>
 
+/// <reference path='jquery/_module.ts'/>
+
 module berek {
 	export class ScrollbarUtil {
 		static CSS_CLASS = 'berek-ScrollbarUtil-box';
@@ -65,6 +67,30 @@ module berek {
 					break;
 			}
 			return false;
+		}
+
+		static getScroll(jq: jquery.IInstance, axis: illa.Axis2D): number {
+			var result = NaN;
+			switch (axis) {
+				case illa.Axis2D.X:
+					result = jq.scrollLeft();
+					break;
+				case illa.Axis2D.Y:
+					result = jq.scrollTop();
+					break;
+			}
+			return result;
+		}
+
+		static setScroll(jq: jquery.IInstance, value: number, axis?: illa.Axis2D): void {
+			switch (axis) {
+				default:
+				case illa.Axis2D.X:
+					jq.scrollLeft(value);
+					if (axis != null) break;
+				case illa.Axis2D.Y:
+					jq.scrollTop(value);
+			}
 		}
 	}
 }

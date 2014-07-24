@@ -473,6 +473,232 @@ var illa;
     })(illa.Axis2D || (illa.Axis2D = {}));
     var Axis2D = illa.Axis2D;
 })(illa || (illa = {}));
+var illa;
+(function (illa) {
+    (function (Alignment) {
+        Alignment[Alignment["START"] = 0] = "START";
+        Alignment[Alignment["CENTER"] = 1] = "CENTER";
+        Alignment[Alignment["END"] = 2] = "END";
+    })(illa.Alignment || (illa.Alignment = {}));
+    var Alignment = illa.Alignment;
+})(illa || (illa = {}));
+var illa;
+(function (illa) {
+    (function (End) {
+        End[End["MIN"] = 0] = "MIN";
+        End[End["MAX"] = 1] = "MAX";
+    })(illa.End || (illa.End = {}));
+    var End = illa.End;
+})(illa || (illa = {}));
+var berek;
+(function (berek) {
+    (function (Context) {
+        Context[Context["INNER"] = 0] = "INNER";
+        Context[Context["PARENT"] = 1] = "PARENT";
+        Context[Context["PAGE"] = 2] = "PAGE";
+    })(berek.Context || (berek.Context = {}));
+    var Context = berek.Context;
+})(berek || (berek = {}));
+var berek;
+(function (berek) {
+    var DimensionsUtil = (function () {
+        function DimensionsUtil() {
+        }
+        DimensionsUtil.getSize = function (jq, axis, context) {
+            if (typeof context === "undefined") { context = 1 /* PARENT */; }
+            var result = NaN;
+            switch (axis) {
+                case 0 /* X */:
+                    switch (context) {
+                        case 0 /* INNER */:
+                            result = jq.width();
+                            break;
+                        case 1 /* PARENT */:
+                        case 2 /* PAGE */:
+                            result = jq.outerWidth();
+                            break;
+                    }
+                    break;
+                case 1 /* Y */:
+                    switch (context) {
+                        case 0 /* INNER */:
+                            result = jq.height();
+                            break;
+                        case 1 /* PARENT */:
+                        case 2 /* PAGE */:
+                            result = jq.outerHeight();
+                            break;
+                    }
+                    break;
+            }
+            return result;
+        };
+
+        DimensionsUtil.setSize = function (jq, v, a, context) {
+            if (typeof context === "undefined") { context = 1 /* PARENT */; }
+            for (var axis = a || 0 /* X */, lastAxis = (a != null ? a : 1 /* Y */); axis <= lastAxis; axis++) {
+                var value = v;
+                switch (context) {
+                    case 1 /* PARENT */:
+                    case 2 /* PAGE */:
+                        var diff = value - this.getSize(jq, axis, context);
+                        value = this.getSize(jq, axis, 0 /* INNER */) + diff;
+                        break;
+                }
+                if (isNaN(value) || !isFinite(value)) {
+                    value = 0;
+                } else {
+                    value = Math.max(0, Math.round(value));
+                }
+                switch (axis) {
+                    case 0 /* X */:
+                        jq.width(value);
+                        break;
+                    case 1 /* Y */:
+                        jq.height(value);
+                        break;
+                }
+            }
+        };
+
+        DimensionsUtil.getOffset = function (jq, axis, alignment, context) {
+            if (typeof alignment === "undefined") { alignment = 0 /* START */; }
+            if (typeof context === "undefined") { context = 1 /* PARENT */; }
+            var result = NaN;
+            var offset;
+            switch (context) {
+                case 0 /* INNER */:
+                    offset = { left: 0, top: 0 };
+                    break;
+                case 1 /* PARENT */:
+                    offset = jq.position();
+                    break;
+                case 2 /* PAGE */:
+                    offset = jq.offset();
+                    break;
+            }
+            switch (axis) {
+                case 0 /* X */:
+                    result = offset.left;
+                    break;
+                case 1 /* Y */:
+                    result = offset.top;
+                    break;
+            }
+            if (alignment != 0 /* START */) {
+                var size = this.getSize(jq, axis, context);
+                if (alignment == 1 /* CENTER */) {
+                    size = size / 2;
+                }
+                result += size;
+            }
+            return result;
+        };
+
+        DimensionsUtil.setOffset = function (jq, v, a, alignment, context) {
+            if (typeof alignment === "undefined") { alignment = 0 /* START */; }
+            if (typeof context === "undefined") { context = 1 /* PARENT */; }
+            for (var axis = a || 0 /* X */, lastAxis = (a != null ? a : 1 /* Y */); axis <= lastAxis; axis++) {
+                var value = v;
+                if (context == 2 /* PAGE */) {
+                    var pageOffset = this.getOffset(jq, axis, 0 /* START */, 2 /* PAGE */);
+                    var currentOffset = this.getOffset(jq, axis);
+                    value -= pageOffset - currentOffset;
+                } else if (context == 0 /* INNER */) {
+                    value += this.getOffset(jq, axis);
+                }
+                if (alignment != 0 /* START */) {
+                    var size = this.getSize(jq, axis, context);
+                    if (alignment == 1 /* CENTER */) {
+                        size = size / 2;
+                    }
+                    value -= size;
+                }
+                if (isNaN(value) || !isFinite(value)) {
+                    value = 0;
+                } else {
+                    value = Math.round(value);
+                }
+                switch (axis) {
+                    case 0 /* X */:
+                        jq.css('left', value);
+                        break;
+                    case 1 /* Y */:
+                        jq.css('top', value);
+                        break;
+                }
+            }
+        };
+
+        DimensionsUtil.getDirection = function (axis, end) {
+            switch (axis) {
+                case 0 /* X */:
+                    switch (end) {
+                        case 0 /* MIN */:
+                            return 'left';
+                        case 1 /* MAX */:
+                            return 'right';
+                    }
+                    break;
+                case 1 /* Y */:
+                    switch (end) {
+                        case 0 /* MIN */:
+                            return 'top';
+                        case 1 /* MAX */:
+                            return 'bottom';
+                    }
+                    break;
+            }
+            return '';
+        };
+
+        DimensionsUtil.getCSSProperty = function (prefix, suffix, jq, axis, e) {
+            var result = 0;
+            for (var end = e || 0 /* MIN */, lastEnd = (e != null ? e : 1 /* MAX */); end <= lastEnd; end++) {
+                result += parseInt(jq.css(prefix + '-' + this.getDirection(axis, end) + '-' + suffix));
+            }
+            return result;
+        };
+
+        DimensionsUtil.setCSSProperty = function (prefix, suffix, jq, value, a, e) {
+            if (a == null && e == null) {
+                jq.css(suffix ? prefix + '-' + suffix : prefix, value);
+            } else {
+                for (var axis = a || 0 /* X */, lastAxis = (a != null ? a : 1 /* Y */); axis <= lastAxis; axis++) {
+                    for (var end = e || 0 /* MIN */, lastEnd = (e != null ? e : 1 /* MAX */); end <= lastEnd; end++) {
+                        jq.css(prefix + '-' + this.getDirection(axis, end) + '-' + suffix, value);
+                    }
+                }
+            }
+        };
+
+        DimensionsUtil.getPadding = function (jq, axis, e) {
+            return this.getCSSProperty('padding', '', jq, axis, e);
+        };
+
+        DimensionsUtil.setPadding = function (jq, value, a, e) {
+            this.setCSSProperty('padding', '', jq, value, a, e);
+        };
+
+        DimensionsUtil.getBorder = function (jq, axis, e) {
+            return this.getCSSProperty('border', 'width', jq, axis, e);
+        };
+
+        DimensionsUtil.setBorder = function (jq, value, a, e) {
+            this.setCSSProperty('border', 'width', jq, value, a, e);
+        };
+
+        DimensionsUtil.getMargin = function (jq, axis, e) {
+            return this.getCSSProperty('margin', '', jq, axis, e);
+        };
+
+        DimensionsUtil.setMargin = function (jq, value, a, e) {
+            this.setCSSProperty('margin', '', jq, value, a, e);
+        };
+        return DimensionsUtil;
+    })();
+    berek.DimensionsUtil = DimensionsUtil;
+})(berek || (berek = {}));
 var berek;
 (function (berek) {
     var ScrollbarUtil = (function () {
@@ -538,6 +764,31 @@ var berek;
                     break;
             }
             return false;
+        };
+
+        ScrollbarUtil.getScroll = function (jq, axis) {
+            var result = NaN;
+            switch (axis) {
+                case 0 /* X */:
+                    result = jq.scrollLeft();
+                    break;
+                case 1 /* Y */:
+                    result = jq.scrollTop();
+                    break;
+            }
+            return result;
+        };
+
+        ScrollbarUtil.setScroll = function (jq, value, axis) {
+            switch (axis) {
+                default:
+                case 0 /* X */:
+                    jq.scrollLeft(value);
+                    if (axis != null)
+                        break;
+                case 1 /* Y */:
+                    jq.scrollTop(value);
+            }
         };
         ScrollbarUtil.CSS_CLASS = 'berek-ScrollbarUtil-box';
         return ScrollbarUtil;
