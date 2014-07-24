@@ -151,49 +151,58 @@ module berek.jquery {
 
 		siblings(selector: string): IInstance;
 		siblings(selection: Element): IInstance;
-		siblings(selection?: Element[]): IInstance;
+		siblings(selection: Element[]): IInstance;
+		siblings(selection?: IInstance): IInstance;
 
 		next(selector: string): IInstance;
 		next(selection: Element): IInstance;
-		next(selection?: Element[]): IInstance;
+		next(selection: Element[]): IInstance;
+		next(instance?: IInstance): IInstance;
 
 		nextAll(selector: string): IInstance;
 		nextAll(selection: Element): IInstance;
-		nextAll(selection?: Element[]): IInstance;
+		nextAll(selection: Element[]): IInstance;
+		nextAll(instance?: IInstance): IInstance;
 
 		parent(selector: string): IInstance;
 		parent(selection: Element): IInstance;
-		parent(selection?: Element[]): IInstance;
+		parent(selection: Element[]): IInstance;
+		parent(instance?: IInstance): IInstance;
 
 		parents(selector: string): IInstance;
 		parents(selection: Element): IInstance;
-		parents(selection?: Element[]): IInstance;
+		parents(selection: Element[]): IInstance;
+		parents(instance?: IInstance): IInstance;
 
 		prev(selector: string): IInstance;
 		prev(selection: Element): IInstance;
-		prev(selection?: Element[]): IInstance;
+		prev(selection: Element[]): IInstance;
+		prev(instance?: IInstance): IInstance;
 
 		prevAll(selector: string): IInstance;
 		prevAll(selection: Element): IInstance;
-		prevAll(selection?: Element[]): IInstance;
+		prevAll(selection: Element[]): IInstance;
+		prevAll(instance?: IInstance): IInstance;
 
 		children(selector: string): IInstance;
 		children(selection: Element): IInstance;
-		children(selection?: Element[]): IInstance;
+		children(selection: Element[]): IInstance;
+		children(instance?: IInstance): IInstance;
 
 		addBack(selector: string): IInstance;
 		addBack(selection: Element): IInstance;
-		addBack(selection?: Element[]): IInstance;
+		addBack(selection: Element[]): IInstance;
+		addBack(instance?: IInstance): IInstance;
 
 		detach(selector: string): IInstance;
 		detach(selection: Element): IInstance;
-		detach(selection?: Element[]): IInstance;
+		detach(selection: Element[]): IInstance;
+		detach(instance?: IInstance): IInstance;
 
 		remove(selector: string): IInstance;
 		remove(selection: Element): IInstance;
-		remove(selection?: Element[]): IInstance;
-
-
+		remove(selection: Element[]): IInstance;
+		remove(instance?: IInstance): IInstance;
 
 		replaceAll(selector: string): IInstance;
 		replaceAll(selection: Element): IInstance;
@@ -215,21 +224,24 @@ module berek.jquery {
 
 		nextUntil(selector: string, filter?: string): IInstance;
 		nextUntil(selection: Element, filter?: string): IInstance;
-		nextUntil(selection?: Element[], filter?: string): IInstance;
+		nextUntil(selection: Element[], filter?: string): IInstance;
+		nextUntil(instance?: IInstance, filter?: string): IInstance;
 
 		parentsUntil(selector: string, filter?: string): IInstance;
 		parentsUntil(selection: Element, filter?: string): IInstance;
-		parentsUntil(selection?: Element[], filter?: string): IInstance;
+		parentsUntil(selection: Element[], filter?: string): IInstance;
+		parentsUntil(instance?: IInstance, filter?: string): IInstance;
 
 		prevUntil(selector: string, filter?: string): IInstance;
 		prevUntil(selection: Element, filter?: string): IInstance;
-		prevUntil(selection?: Element[], filter?: string): IInstance;
+		prevUntil(selection: Element[], filter?: string): IInstance;
+		prevUntil(instance?: IInstance, filter?: string): IInstance;
 
 
 
 		has(selector: string): IInstance;
-		has(contained: IInstance): IInstance;
 		has(contained: Element): IInstance;
+		has(contained: IInstance): IInstance;
 
 
 
