@@ -10,25 +10,25 @@ module berek {
 	export class DimensionsUtil {
 		static getSize(jq: jquery.IInstance, axis: illa.Axis2D, context = Context.PARENT): number {
 			var result = NaN;
-			switch (axis) {
-				case illa.Axis2D.X:
-					switch (context) {
-						case Context.INNER:
-							result = jq.width();
+
+			switch (context) {
+				case Context.INNER:
+					switch (axis) {
+						case illa.Axis2D.X:
+							result = jq.innerWidth();
 							break;
-						case Context.PARENT:
-						case Context.PAGE:
-							result = jq.outerWidth();
+						case illa.Axis2D.Y:
+							result = jq.innerHeight();
 							break;
 					}
 					break;
-				case illa.Axis2D.Y:
-					switch (context) {
-						case Context.INNER:
-							result = jq.height();
+				case Context.PARENT:
+				case Context.PAGE:
+					switch (axis) {
+						case illa.Axis2D.X:
+							result = jq.outerWidth();
 							break;
-						case Context.PARENT:
-						case Context.PAGE:
+						case illa.Axis2D.Y:
 							result = jq.outerHeight();
 							break;
 					}
@@ -95,7 +95,7 @@ module berek {
 			return result;
 		}
 
-		static setOffset(jq: jquery.IInstance, v: number, a?: illa.Axis2D, alignment = illa.Alignment.START, context = Context.PARENT): void {
+		static setOffset(jq: jquery.IInstance, v: number, a?: illa.Axis2D, alignment = illa.Alignment.START, context = Context.PARENT, preventNegative = false): void {
 			for (var axis = a || illa.Axis2D.X, lastAxis = (a != null ? a : illa.Axis2D.Y); axis <= lastAxis; axis++) {
 				var value = v;
 				if (context == Context.PAGE) {
@@ -116,6 +116,7 @@ module berek {
 					value = 0;
 				} else {
 					value = Math.round(value);
+					if (preventNegative) value = Math.max(0, value);
 				}
 				switch (axis) {
 					case illa.Axis2D.X:
@@ -149,7 +150,7 @@ module berek {
 			}
 			return '';
 		}
-		
+
 		static getCSSProperty(prefix: string, suffix: string, jq: jquery.IInstance, axis: illa.Axis2D, e?: illa.End): number {
 			var result = 0;
 			for (var end = e || illa.End.MIN, lastEnd = (e != null ? e : illa.End.MAX); end <= lastEnd; end++) {
