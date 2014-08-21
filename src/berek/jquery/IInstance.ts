@@ -131,7 +131,7 @@ module berek.jquery {
 		css(propertyName: string, value: number): IInstance;
 		css(propertyName: string, fn: ICSSFunctionString): IInstance;
 		css(propertyName: string, fn: ICSSFunctionNumber): IInstance;
-		css(properties: ICSSObject): IInstance;
+		css(properties: {}): IInstance;
 
 
 
