@@ -541,8 +541,8 @@ module berek.jquery {
 
 
 
-		stop(queue: string, clearQueue?: boolean, jumpToEnd?: boolean);
-		stop(clearQueue?: boolean, jumpToEnd?: boolean);
+		stop(queue: string, clearQueue?: boolean, jumpToEnd?: boolean): IInstance;
+		stop(clearQueue?: boolean, jumpToEnd?: boolean): IInstance;
 
 
 
