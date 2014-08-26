@@ -16,7 +16,7 @@ module berek {
 				this.box = jquery.$('<div>');
 			}
 			this.box.addClass(ScrollbarUtil.CSS_CLASS);
-			this.box.appendTo('body');
+			this.box.prependTo('body');
 		}
 
 		getDefaultSize(axis: illa.Axis2D): number {
