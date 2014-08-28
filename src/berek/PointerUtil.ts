@@ -29,10 +29,13 @@ module berek {
 		}
 
 		static getSource(e: jquery.IEvent): PointerEventSource {
-			if (e instanceof MouseEvent) {
-				return PointerEventSource.MOUSE;
-			} else if (illa.isFunction(illa.GLOBAL.TouchEvent) && e instanceof illa.GLOBAL.TouchEvent) {
+			if (illa.GLOBAL.TouchEvent && e.originalEvent instanceof illa.GLOBAL.TouchEvent) {
 				return PointerEventSource.TOUCH;
+			} else if (illa.GLOBAL.MouseEvent && e.originalEvent instanceof MouseEvent || // IE8 does not have MouseEvent
+				e.type.indexOf('mouse') == 0 ||
+				e.type.indexOf('click') != -1 ||
+				e.type == 'contextmenu') {
+				return PointerEventSource.MOUSE;
 			}
 			return PointerEventSource.OTHER;
 		}
