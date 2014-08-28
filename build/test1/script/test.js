@@ -507,25 +507,25 @@ var berek;
         DimensionsUtil.getSize = function (jq, axis, context) {
             if (typeof context === "undefined") { context = 1 /* PARENT */; }
             var result = NaN;
-            switch (axis) {
-                case 0 /* X */:
-                    switch (context) {
-                        case 0 /* INNER */:
-                            result = jq.width();
+
+            switch (context) {
+                case 0 /* INNER */:
+                    switch (axis) {
+                        case 0 /* X */:
+                            result = jq.innerWidth();
                             break;
-                        case 1 /* PARENT */:
-                        case 2 /* PAGE */:
-                            result = jq.outerWidth();
+                        case 1 /* Y */:
+                            result = jq.innerHeight();
                             break;
                     }
                     break;
-                case 1 /* Y */:
-                    switch (context) {
-                        case 0 /* INNER */:
-                            result = jq.height();
+                case 1 /* PARENT */:
+                case 2 /* PAGE */:
+                    switch (axis) {
+                        case 0 /* X */:
+                            result = jq.outerWidth();
                             break;
-                        case 1 /* PARENT */:
-                        case 2 /* PAGE */:
+                        case 1 /* Y */:
                             result = jq.outerHeight();
                             break;
                     }
@@ -595,9 +595,10 @@ var berek;
             return result;
         };
 
-        DimensionsUtil.setOffset = function (jq, v, a, alignment, context) {
+        DimensionsUtil.setOffset = function (jq, v, a, alignment, context, preventNegative) {
             if (typeof alignment === "undefined") { alignment = 0 /* START */; }
             if (typeof context === "undefined") { context = 1 /* PARENT */; }
+            if (typeof preventNegative === "undefined") { preventNegative = false; }
             for (var axis = a || 0 /* X */, lastAxis = (a != null ? a : 1 /* Y */); axis <= lastAxis; axis++) {
                 var value = v;
                 if (context == 2 /* PAGE */) {
@@ -618,6 +619,8 @@ var berek;
                     value = 0;
                 } else {
                     value = Math.round(value);
+                    if (preventNegative)
+                        value = Math.max(0, value);
                 }
                 switch (axis) {
                     case 0 /* X */:
@@ -701,6 +704,77 @@ var berek;
 })(berek || (berek = {}));
 var berek;
 (function (berek) {
+    (function (PointerCoordsContext) {
+        PointerCoordsContext[PointerCoordsContext["CLIENT"] = 0] = "CLIENT";
+        PointerCoordsContext[PointerCoordsContext["PAGE"] = 1] = "PAGE";
+        PointerCoordsContext[PointerCoordsContext["SCREEN"] = 2] = "SCREEN";
+    })(berek.PointerCoordsContext || (berek.PointerCoordsContext = {}));
+    var PointerCoordsContext = berek.PointerCoordsContext;
+})(berek || (berek = {}));
+var berek;
+(function (berek) {
+    (function (PointerEventSource) {
+        PointerEventSource[PointerEventSource["OTHER"] = 0] = "OTHER";
+        PointerEventSource[PointerEventSource["MOUSE"] = 1] = "MOUSE";
+        PointerEventSource[PointerEventSource["TOUCH"] = 2] = "TOUCH";
+    })(berek.PointerEventSource || (berek.PointerEventSource = {}));
+    var PointerEventSource = berek.PointerEventSource;
+})(berek || (berek = {}));
+var berek;
+(function (berek) {
+    var PointerUtil = (function () {
+        function PointerUtil() {
+        }
+        PointerUtil.getCoords = function (e, context, coordID) {
+            if (typeof context === "undefined") { context = 1 /* PAGE */; }
+            if (typeof coordID === "undefined") { coordID = 0; }
+            var result = { x: NaN, y: NaN };
+
+            var coordSource;
+
+            switch (this.getSource(e)) {
+                case 1 /* MOUSE */:
+                    if (coordID == 0)
+                        coordSource = e;
+                    break;
+                case 2 /* TOUCH */:
+                    coordSource = e.originalEvent.touches[coordID];
+                    break;
+            }
+
+            if (coordSource) {
+                var contextPrefix = berek.PointerCoordsContext[context].toLowerCase();
+                result.x = coordSource[contextPrefix + 'X'];
+                result.y = coordSource[contextPrefix + 'Y'];
+            }
+
+            return result;
+        };
+
+        PointerUtil.getSource = function (e) {
+            if (e instanceof MouseEvent) {
+                return 1 /* MOUSE */;
+            } else if (illa.isFunction(illa.GLOBAL.TouchEvent) && e instanceof illa.GLOBAL.TouchEvent) {
+                return 2 /* TOUCH */;
+            }
+            return 0 /* OTHER */;
+        };
+
+        PointerUtil.getCoordCount = function (e) {
+            var result = 1;
+            switch (this.getSource(e)) {
+                case 2 /* TOUCH */:
+                    result = e.originalEvent.touches.length;
+                    break;
+            }
+            return result;
+        };
+        return PointerUtil;
+    })();
+    berek.PointerUtil = PointerUtil;
+})(berek || (berek = {}));
+var berek;
+(function (berek) {
     var ScrollbarUtil = (function () {
         function ScrollbarUtil(box) {
             this.defaultWidth = NaN;
@@ -711,7 +785,7 @@ var berek;
                 this.box = berek.jquery.$('<div>');
             }
             this.box.addClass(ScrollbarUtil.CSS_CLASS);
-            this.box.appendTo('body');
+            this.box.prependTo('body');
         }
         ScrollbarUtil.prototype.getDefaultSize = function (axis) {
             var result = NaN;
