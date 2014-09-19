@@ -1,47 +1,67 @@
 module.exports = function(grunt) {
 	
-	grunt.initConfig({
-		_outJS: 'build/test1/script/test.js',
-		_outCSS: 'build/test1/style/test.css',
+	grunt.initConfig((function() {
 		
-		clean: {
-			test1: ['<%= _outJS %>', '<%= _outCSS %>']
-		},
-		less: {
-			test1: {
-				files: {
-					'<%= _outCSS %>': 'test/test1/_style.less'
+		var TEST_COUNT = 1;
+		
+		var config = {
+			clean: {
+				tests: []
+			},
+			kapocs: {
+				tests: {
+					options: {
+						srcName: 'test/',
+						cleanTmp: false
+					}
+				}
+			},
+			less: {
+				tests: {
+					files: {}
+				}
+			},
+			typescript: {
+				tests: {
+					files: {}
+				}
+			},
+			sas: {
+				update: {}
+			},
+			shell: {
+				update: {
+					command: [
+						'bower update',
+						'bower prune',
+						'bower install'
+					].join('&&')
 				}
 			}
-		},
-		typescript: {
-			test1: {
-				files: {
-					'<%= _outJS %>': 'test/test1/Main.ts'
-				}
-			}
-		},
-		sas: {
-			update: {
-				
-			}
-		},
-		shell: {
-			update: {
-				command: [
-					'bower install -p',
-					'bower prune',
-					'bower update -p'
-				].join('&&')
-			}
+		};
+		
+		for (var i = 1; i <= TEST_COUNT; i++) {
+			var folderPath = 'tmp/kapocs_asset_template/test' + i;
+			var jsPath = folderPath + '/script/test.js';
+			var cssPath = folderPath + '/style/test.css';
+			
+			config.clean.tests.push(jsPath);
+			config.clean.tests.push(cssPath);
+			
+			config.less.tests.files[cssPath] = 'test/test' + i + '/_style.less';
+			
+			config.typescript.tests.files[jsPath] = 'test/test' + i + '/Main.ts';
 		}
-	});
+		
+		return config;
+	})());
 
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-less');
-	grunt.loadNpmTasks('grunt-typescript');
+	grunt.loadNpmTasks('grunt-kapocs');
 	grunt.loadNpmTasks('grunt-shell');
 	grunt.loadNpmTasks('grunt-sas');
+	grunt.loadNpmTasks('grunt-typescript');
 
 	grunt.registerTask('update', ['shell:update','sas:update']);
 	grunt.registerTask('compile', ['clean:test1','typescript:test1','less:test1']);

@@ -752,10 +752,10 @@ var berek;
         };
 
         PointerUtil.getSource = function (e) {
-            if (e instanceof MouseEvent) {
-                return 1 /* MOUSE */;
-            } else if (illa.isFunction(illa.GLOBAL.TouchEvent) && e instanceof illa.GLOBAL.TouchEvent) {
+            if (illa.GLOBAL.TouchEvent && e.originalEvent instanceof illa.GLOBAL.TouchEvent) {
                 return 2 /* TOUCH */;
+            } else if (illa.GLOBAL.MouseEvent && e.originalEvent instanceof MouseEvent || e.type.indexOf('mouse') == 0 || e.type.indexOf('click') != -1 || e.type == 'contextmenu') {
+                return 1 /* MOUSE */;
             }
             return 0 /* OTHER */;
         };
