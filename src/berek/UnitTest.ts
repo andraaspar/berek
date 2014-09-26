@@ -1,16 +1,16 @@
 /// <reference path='../../lib/illa/UnitTest.ts'/>
 
-/// <reference path='jquery/_module.ts'/>
+/// <reference path='../../lib/jQuery.d.ts'/>
 
 module berek {
 	export class UnitTest extends illa.UnitTest {
-		constructor(public printTarget: jquery.IInstance) {
+		constructor(public printTarget: jQuery.IInstance) {
 			super();
 		}
 
 		info(...r): void {
 			if (this.printTarget) {
-				var out = jquery.$('<p>').text(r.join(' '));
+				var out = jQuery('<p>').text(r.join(' '));
 				this.printTarget.append(out);
 			} else {
 				super.info.apply(this, r);
@@ -19,7 +19,7 @@ module berek {
 
 		warn(...r): void {
 			if (this.printTarget) {
-				var out = jquery.$('<p>').text(r.join(' ')).prepend('<b>WARNING: </b>');
+				var out = jQuery('<p>').text(r.join(' ')).prepend('<b>WARNING: </b>');
 				this.printTarget.append(out);
 			} else {
 				super.warn.apply(this, r);

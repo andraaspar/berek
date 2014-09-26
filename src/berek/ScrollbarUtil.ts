@@ -1,19 +1,19 @@
 /// <reference path='../../lib/illa/Axis2D.ts'/>
 
-/// <reference path='jquery/_module.ts'/>
+/// <reference path='../../lib/jQuery.d.ts'/>
 
 module berek {
 	export class ScrollbarUtil {
 		static CSS_CLASS = 'berek-ScrollbarUtil-box';
-		private box: jquery.IInstance;
+		private box: jQuery.IInstance;
 		private defaultWidth = NaN;
 		private defaultHeight = NaN;
 		
-		constructor(box?: jquery.IInstance) {
+		constructor(box?: jQuery.IInstance) {
 			if (box) {
 				this.box = box;
 			} else {
-				this.box = jquery.$('<div>');
+				this.box = jQuery('<div>');
 			}
 			this.box.addClass(ScrollbarUtil.CSS_CLASS);
 			this.box.prependTo('body');
@@ -45,7 +45,7 @@ module berek {
 			this.defaultWidth = NaN;
 		}
 
-		static isVisibleOn(jq: jquery.IInstance, axis: illa.Axis2D): boolean {
+		static isVisibleOn(jq: jQuery.IInstance, axis: illa.Axis2D): boolean {
 			var elem = jq[0];
 			if (!elem) return false;
 			var overflow = '';
@@ -69,7 +69,7 @@ module berek {
 			return false;
 		}
 
-		static getScroll(jq: jquery.IInstance, axis: illa.Axis2D): number {
+		static getScroll(jq: jQuery.IInstance, axis: illa.Axis2D): number {
 			var result = NaN;
 			switch (axis) {
 				case illa.Axis2D.X:
@@ -82,7 +82,7 @@ module berek {
 			return result;
 		}
 
-		static setScroll(jq: jquery.IInstance, value: number, axis?: illa.Axis2D): void {
+		static setScroll(jq: jQuery.IInstance, value: number, axis?: illa.Axis2D): void {
 			switch (axis) {
 				default:
 				case illa.Axis2D.X:

@@ -2,13 +2,13 @@
 /// <reference path='../../lib/illa/Alignment.ts'/>
 /// <reference path='../../lib/illa/End.ts'/>
 
-/// <reference path='jquery/_module.ts'/>
+/// <reference path='../../lib/jQuery.d.ts'/>
 
 /// <reference path='Context.ts'/>
 
 module berek {
 	export class DimensionsUtil {
-		static getSize(jq: jquery.IInstance, axis: illa.Axis2D, context = Context.PARENT): number {
+		static getSize(jq: jQuery.IInstance, axis: illa.Axis2D, context = Context.PARENT): number {
 			var result = NaN;
 
 			switch (context) {
@@ -37,7 +37,7 @@ module berek {
 			return result;
 		}
 
-		static setSize(jq: jquery.IInstance, v: number, a?: illa.Axis2D, context = Context.PARENT): void {
+		static setSize(jq: jQuery.IInstance, v: number, a?: illa.Axis2D, context = Context.PARENT): void {
 			for (var axis = a || illa.Axis2D.X, lastAxis = (a != null ? a : illa.Axis2D.Y); axis <= lastAxis; axis++) {
 				var value = v;
 				switch (context) {
@@ -63,9 +63,9 @@ module berek {
 			}
 		}
 
-		static getOffset(jq: jquery.IInstance, axis: illa.Axis2D, alignment = illa.Alignment.START, context = Context.PARENT): number {
+		static getOffset(jq: jQuery.IInstance, axis: illa.Axis2D, alignment = illa.Alignment.START, context = Context.PARENT): number {
 			var result = NaN;
-			var offset: jquery.IPositionObject;
+			var offset: jQuery.IPositionObject;
 			switch (context) {
 				case Context.INNER:
 					offset = { left: 0, top: 0 };
@@ -95,7 +95,7 @@ module berek {
 			return result;
 		}
 
-		static setOffset(jq: jquery.IInstance, v: number, a?: illa.Axis2D, alignment = illa.Alignment.START, context = Context.PARENT, preventNegative = false): void {
+		static setOffset(jq: jQuery.IInstance, v: number, a?: illa.Axis2D, alignment = illa.Alignment.START, context = Context.PARENT, preventNegative = false): void {
 			for (var axis = a || illa.Axis2D.X, lastAxis = (a != null ? a : illa.Axis2D.Y); axis <= lastAxis; axis++) {
 				var value = v;
 				if (context == Context.PAGE) {
@@ -151,7 +151,7 @@ module berek {
 			return '';
 		}
 
-		static getCSSProperty(prefix: string, suffix: string, jq: jquery.IInstance, axis: illa.Axis2D, e?: illa.End): number {
+		static getCSSProperty(prefix: string, suffix: string, jq: jQuery.IInstance, axis: illa.Axis2D, e?: illa.End): number {
 			var result = 0;
 			for (var end = e || illa.End.MIN, lastEnd = (e != null ? e : illa.End.MAX); end <= lastEnd; end++) {
 				result += parseInt(jq.css(prefix + '-' + this.getDirection(axis, end) + '-' + suffix));
@@ -159,7 +159,7 @@ module berek {
 			return result;
 		}
 
-		static setCSSProperty(prefix: string, suffix: string, jq: jquery.IInstance, value: number, a?: illa.Axis2D, e?: illa.End): void {
+		static setCSSProperty(prefix: string, suffix: string, jq: jQuery.IInstance, value: number, a?: illa.Axis2D, e?: illa.End): void {
 			if (a == null && e == null) {
 				jq.css(suffix ? prefix + '-' + suffix : prefix, value);
 			} else {
@@ -171,27 +171,27 @@ module berek {
 			}
 		}
 
-		static getPadding(jq: jquery.IInstance, axis: illa.Axis2D, e?: illa.End): number {
+		static getPadding(jq: jQuery.IInstance, axis: illa.Axis2D, e?: illa.End): number {
 			return this.getCSSProperty('padding', '', jq, axis, e);
 		}
 
-		static setPadding(jq: jquery.IInstance, value: number, a?: illa.Axis2D, e?: illa.End): void {
+		static setPadding(jq: jQuery.IInstance, value: number, a?: illa.Axis2D, e?: illa.End): void {
 			this.setCSSProperty('padding', '', jq, value, a, e);
 		}
 
-		static getBorder(jq: jquery.IInstance, axis: illa.Axis2D, e?: illa.End): number {
+		static getBorder(jq: jQuery.IInstance, axis: illa.Axis2D, e?: illa.End): number {
 			return this.getCSSProperty('border', 'width', jq, axis, e);
 		}
 
-		static setBorder(jq: jquery.IInstance, value: number, a?: illa.Axis2D, e?: illa.End): void {
+		static setBorder(jq: jQuery.IInstance, value: number, a?: illa.Axis2D, e?: illa.End): void {
 			this.setCSSProperty('border', 'width', jq, value, a, e);
 		}
 
-		static getMargin(jq: jquery.IInstance, axis: illa.Axis2D, e?: illa.End): number {
+		static getMargin(jq: jQuery.IInstance, axis: illa.Axis2D, e?: illa.End): number {
 			return this.getCSSProperty('margin', '', jq, axis, e);
 		}
 
-		static setMargin(jq: jquery.IInstance, value: number, a?: illa.Axis2D, e?: illa.End): void {
+		static setMargin(jq: jQuery.IInstance, value: number, a?: illa.Axis2D, e?: illa.End): void {
 			this.setCSSProperty('margin', '', jq, value, a, e);
 		}
 	}

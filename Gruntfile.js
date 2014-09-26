@@ -32,8 +32,8 @@ module.exports = function(grunt) {
 			shell: {
 				update: {
 					command: [
-						'bower update',
 						'bower prune',
+						'bower update',
 						'bower install'
 					].join('&&')
 				}
@@ -64,6 +64,6 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-typescript');
 
 	grunt.registerTask('update', ['shell:update','sas:update']);
-	grunt.registerTask('compile', ['clean:test1','typescript:test1','less:test1']);
+	grunt.registerTask('compile', ['clean:tests','typescript:tests','less:tests']);
 	grunt.registerTask('default', ['compile']);
 };

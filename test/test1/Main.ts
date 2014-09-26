@@ -4,25 +4,25 @@
 /// <reference path='../../lib/illa/StringUtil.ts'/>
 /// <reference path='../../lib/illa/Ticker.ts'/>
 
-/// <reference path='../../src/berek/jquery/_module.ts'/>
+/// <reference path='../../lib/jQuery.d.ts'/>
+
 /// <reference path='../../src/berek/DimensionsUtil.ts'/>
 /// <reference path='../../src/berek/PointerUtil.ts'/>
 /// <reference path='../../src/berek/ScrollbarUtil.ts'/>
 /// <reference path='../../src/berek/UnitTest.ts'/>
 
 module test1 {
-	import jquery = berek.jquery;
 	
 	export class Main {
 		unitTest: illa.UnitTest;
 		ticker: illa.Ticker;
 
 		constructor() {
-			jquery.$(illa.bind(this.onDOMLoaded, this));
+			jQuery(illa.bind(this.onDOMLoaded, this));
 		}
 
 		onDOMLoaded(): void {
-			var u = this.unitTest = new berek.UnitTest(jquery.$('body'));
+			var u = this.unitTest = new berek.UnitTest(jQuery('body'));
 			u.info('Testing...');
 
 
@@ -33,11 +33,11 @@ module test1 {
 			u.assert(scrollbarUtil.getDefaultSize(illa.Axis2D.X) >= 0, 'ScrollbarUtil.getDefaultSize 3');
 			u.assert(scrollbarUtil.getDefaultSize(illa.Axis2D.Y) >= 0, 'ScrollbarUtil.getDefaultSize 4');
 
-			var scrolling = jquery.$('<div style="overflow-x: scroll; overflow-y: scroll">');
-			var scrolling2 = jquery.$('<div style="overflow: scroll">');
-			var nonScrolling = jquery.$('<div style="overflow-x: hidden; overflow-y: hidden">');
-			var nonScrolling2 = jquery.$('<div style="overflow-x: visible; overflow-y: visible">');
-			var nonScrolling3 = jquery.$('<div style="overflow: visible">');
+			var scrolling = jQuery('<div style="overflow-x: scroll; overflow-y: scroll">');
+			var scrolling2 = jQuery('<div style="overflow: scroll">');
+			var nonScrolling = jQuery('<div style="overflow-x: hidden; overflow-y: hidden">');
+			var nonScrolling2 = jQuery('<div style="overflow-x: visible; overflow-y: visible">');
+			var nonScrolling3 = jQuery('<div style="overflow: visible">');
 
 			u.assert(berek.ScrollbarUtil.isVisibleOn(scrolling, illa.Axis2D.X), 'ScrollbarUtil.isVisibleOn 1');
 			u.assert(berek.ScrollbarUtil.isVisibleOn(scrolling, illa.Axis2D.Y), 'ScrollbarUtil.isVisibleOn 2');
