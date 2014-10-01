@@ -6,14 +6,37 @@ module.exports = function(grunt) {
 		
 		var config = {
 			clean: {
-				tests: []
+				tests: ['build', 'tmp']
 			},
 			kapocs: {
 				tests: {
-					options: {
-						srcName: 'test/',
-						cleanTmp: false
-					}
+					assets: [{
+						expand: true,
+						cwd: 'test/assets',
+						dot: true,
+						src: ['**'],
+						dest: 'build'
+					}],
+					assetTemplates: [{
+						expand: true,
+						cwd: 'test/asset_templates',
+						dot: true,
+						src: ['**'],
+						dest: 'build'
+					}, {
+						expand: true,
+						cwd: 'tmp/asset_templates',
+						dot: true,
+						src: ['**'],
+						dest: 'build'
+					}],
+					templates: [{
+						expand: true,
+						cwd: 'test/templates',
+						dot: true,
+						src: ['**'],
+						dest: 'build'
+					}]
 				}
 			},
 			less: {
@@ -31,22 +54,15 @@ module.exports = function(grunt) {
 			},
 			shell: {
 				update: {
-					command: [
-						'bower prune',
-						'bower update',
-						'bower install'
-					].join('&&')
+					command: ['bower prune', 'bower update', 'bower install'].join('&&')
 				}
 			}
 		};
 		
 		for (var i = 1; i <= TEST_COUNT; i++) {
-			var folderPath = 'tmp/kapocs_asset_template/test' + i;
+			var folderPath = 'tmp/asset_templates/test' + i;
 			var jsPath = folderPath + '/script/test.js';
 			var cssPath = folderPath + '/style/test.css';
-			
-			config.clean.tests.push(jsPath);
-			config.clean.tests.push(cssPath);
 			
 			config.less.tests.files[cssPath] = 'test/test' + i + '/_style.less';
 			
@@ -55,15 +71,15 @@ module.exports = function(grunt) {
 		
 		return config;
 	})());
-
+	
 	grunt.loadNpmTasks('grunt-contrib-clean');
 	grunt.loadNpmTasks('grunt-contrib-less');
 	grunt.loadNpmTasks('grunt-kapocs');
 	grunt.loadNpmTasks('grunt-shell');
 	grunt.loadNpmTasks('grunt-sas');
 	grunt.loadNpmTasks('grunt-typescript');
-
-	grunt.registerTask('update', ['shell:update','sas:update']);
-	grunt.registerTask('compile', ['clean:tests','typescript:tests','less:tests']);
+	
+	grunt.registerTask('update', ['shell:update', 'sas:update']);
+	grunt.registerTask('compile', ['clean:tests', 'typescript:tests', 'less:tests', 'kapocs:tests']);
 	grunt.registerTask('default', ['compile']);
 };

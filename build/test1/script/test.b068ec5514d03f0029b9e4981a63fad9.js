@@ -69,7 +69,7 @@ var illa;
         } else {
             result = typeof v;
             if (result == 'object' || result == 'function') {
-                result = illa.classByType[toString.call(v)] || 'object';
+                result = illa.classByType[illa.classByType.toString.call(v)] || 'object';
             }
         }
         return result;
@@ -90,8 +90,21 @@ var illa;
     }
     illa.bind = bind;
 
+    function partial(fn, obj) {
+        var args = [];
+        for (var _i = 0; _i < (arguments.length - 2); _i++) {
+            args[_i] = arguments[_i + 2];
+        }
+        if (!fn)
+            throw 'No function.';
+        return function () {
+            return fn.apply(obj, args.concat(Array.prototype.slice.call(arguments)));
+        };
+    }
+    illa.partial = partial;
+
     if (Function.prototype.bind) {
-        illa.bind = function (fn, obj) {
+        illa.bind = illa.partial = function (fn, obj) {
             return fn.call.apply(fn.bind, arguments);
         };
     }
@@ -112,7 +125,7 @@ var illa;
                     fromIndex = Math.max(0, length + fromIndex);
                 }
                 for (var i = fromIndex; i < length; i++) {
-                    if (i in a && a[i] === v) {
+                    if (a[i] === v) {
                         return i;
                     }
                 }
@@ -267,6 +280,10 @@ var illa;
 
         StringUtil.trim = function (str) {
             return str.replace(/^\s+|\s+$/g, '');
+        };
+
+        StringUtil.escapeRegExp = function (str) {
+            return str.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
         };
         StringUtil.CHAR_TO_HTML = {
             '&': '&amp;',
@@ -443,28 +460,25 @@ var illa;
         };
 
         Ticker.prototype.onTick = function () {
+            new illa.Event(Ticker.EVENT_BEFORE_TICK, this).dispatch();
             this.tickCount++;
             if (this.supportsAnimationFrame) {
                 this.intervalID = requestAnimationFrame(this.onTickBound);
             }
             new illa.Event(Ticker.EVENT_TICK, this).dispatch();
+            new illa.Event(Ticker.EVENT_AFTER_TICK, this).dispatch();
         };
 
         Ticker.prototype.getTickCount = function () {
             return this.tickCount;
         };
+        Ticker.EVENT_BEFORE_TICK = 'illa_Ticker_EVENT_BEFORE_TICK';
         Ticker.EVENT_TICK = 'illa_Ticker_EVENT_TICK';
+        Ticker.EVENT_AFTER_TICK = 'illa_Ticker_EVENT_AFTER_TICK';
         return Ticker;
     })(illa.EventHandler);
     illa.Ticker = Ticker;
 })(illa || (illa = {}));
-var berek;
-(function (berek) {
-    (function (jquery) {
-        jquery.$ = window['jQuery'];
-    })(berek.jquery || (berek.jquery = {}));
-    var jquery = berek.jquery;
-})(berek || (berek = {}));
 var illa;
 (function (illa) {
     (function (Axis2D) {
@@ -782,7 +796,7 @@ var berek;
             if (box) {
                 this.box = box;
             } else {
-                this.box = berek.jquery.$('<div>');
+                this.box = jQuery('<div>');
             }
             this.box.addClass(ScrollbarUtil.CSS_CLASS);
             this.box.prependTo('body');
@@ -941,7 +955,7 @@ var berek;
                 r[_i] = arguments[_i + 0];
             }
             if (this.printTarget) {
-                var out = berek.jquery.$('<p>').text(r.join(' '));
+                var out = jQuery('<p>').text(r.join(' '));
                 this.printTarget.append(out);
             } else {
                 _super.prototype.info.apply(this, r);
@@ -954,7 +968,7 @@ var berek;
                 r[_i] = arguments[_i + 0];
             }
             if (this.printTarget) {
-                var out = berek.jquery.$('<p>').text(r.join(' ')).prepend('<b>WARNING: </b>');
+                var out = jQuery('<p>').text(r.join(' ')).prepend('<b>WARNING: </b>');
                 this.printTarget.append(out);
             } else {
                 _super.prototype.warn.apply(this, r);
@@ -966,14 +980,12 @@ var berek;
 })(berek || (berek = {}));
 var test1;
 (function (test1) {
-    var jquery = berek.jquery;
-
     var Main = (function () {
         function Main() {
-            jquery.$(illa.bind(this.onDOMLoaded, this));
+            jQuery(illa.bind(this.onDOMLoaded, this));
         }
         Main.prototype.onDOMLoaded = function () {
-            var u = this.unitTest = new berek.UnitTest(jquery.$('body'));
+            var u = this.unitTest = new berek.UnitTest(jQuery('body'));
             u.info('Testing...');
 
             var scrollbarUtil = new berek.ScrollbarUtil();
@@ -982,11 +994,11 @@ var test1;
             u.assert(scrollbarUtil.getDefaultSize(0 /* X */) >= 0, 'ScrollbarUtil.getDefaultSize 3');
             u.assert(scrollbarUtil.getDefaultSize(1 /* Y */) >= 0, 'ScrollbarUtil.getDefaultSize 4');
 
-            var scrolling = jquery.$('<div style="overflow-x: scroll; overflow-y: scroll">');
-            var scrolling2 = jquery.$('<div style="overflow: scroll">');
-            var nonScrolling = jquery.$('<div style="overflow-x: hidden; overflow-y: hidden">');
-            var nonScrolling2 = jquery.$('<div style="overflow-x: visible; overflow-y: visible">');
-            var nonScrolling3 = jquery.$('<div style="overflow: visible">');
+            var scrolling = jQuery('<div style="overflow-x: scroll; overflow-y: scroll">');
+            var scrolling2 = jQuery('<div style="overflow: scroll">');
+            var nonScrolling = jQuery('<div style="overflow-x: hidden; overflow-y: hidden">');
+            var nonScrolling2 = jQuery('<div style="overflow-x: visible; overflow-y: visible">');
+            var nonScrolling3 = jQuery('<div style="overflow: visible">');
 
             u.assert(berek.ScrollbarUtil.isVisibleOn(scrolling, 0 /* X */), 'ScrollbarUtil.isVisibleOn 1');
             u.assert(berek.ScrollbarUtil.isVisibleOn(scrolling, 1 /* Y */), 'ScrollbarUtil.isVisibleOn 2');
