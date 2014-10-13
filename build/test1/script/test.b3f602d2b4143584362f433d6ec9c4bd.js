@@ -893,26 +893,27 @@ var berek;
 })(berek || (berek = {}));
 var berek;
 (function (berek) {
-    var StorageUtil = (function () {
-        function StorageUtil() {
+    var StorageWrapper = (function () {
+        function StorageWrapper(type) {
+            this.type = type;
+            this.storage = this.getNativeStorage(type);
         }
-        StorageUtil.isStorageSupported = function (type) {
+        StorageWrapper.isStorageSupported = function (type) {
             var result = false;
-            var storage = this.getStorage(type);
-            if (storage) {
-                try  {
-                    var itemName = 'berek_StorageUtil_test';
-                    storage.setItem(itemName, '1');
-                    result = storage.getItem(itemName) === '1';
-                    storage.removeItem(itemName);
-                } catch (e) {
-                    result = false;
-                }
+            var storageWrapper = new StorageWrapper(type);
+            try  {
+                var itemName = 'berek_StorageUtil_test';
+                var value = '1';
+                storageWrapper.setItem(itemName, value);
+                result = storageWrapper.getItem(itemName) === value;
+                storageWrapper.removeItem(itemName);
+            } catch (e) {
+                result = false;
             }
             return result;
         };
 
-        StorageUtil.getStorage = function (type) {
+        StorageWrapper.prototype.getNativeStorage = function (type) {
             var result;
             try  {
                 switch (type) {
@@ -928,50 +929,55 @@ var berek;
             return result;
         };
 
-        StorageUtil.getKey = function (type, i) {
+        StorageWrapper.prototype.getKey = function (i) {
             var result;
-            var storage = this.getStorage(type);
-            if (storage) {
-                result = storage.key(i);
+            if (this.storage) {
+                result = this.storage.key(i);
             }
             return result;
         };
 
-        StorageUtil.getItem = function (type, k) {
+        StorageWrapper.prototype.getItem = function (k) {
             var result;
-            var storage = this.getStorage(type);
-            if (storage) {
-                result = storage.getItem(k);
+            if (this.storage) {
+                result = this.storage.getItem(k);
             }
             return result;
         };
 
-        StorageUtil.setItem = function (type, k, v) {
-            var storage = this.getStorage(type);
-            if (storage) {
+        StorageWrapper.prototype.setItem = function (k, v) {
+            var success = false;
+            if (this.storage) {
                 try  {
-                    storage.setItem(k, v);
+                    this.storage.setItem(k, v);
+                    success = true;
                 } catch (e) {
                 }
             }
+            return success;
         };
 
-        StorageUtil.removeItem = function (type, k) {
-            var storage = this.getStorage(type);
-            if (storage) {
-                storage.removeItem(k);
+        StorageWrapper.prototype.removeItem = function (k) {
+            if (this.storage) {
+                this.storage.removeItem(k);
             }
         };
 
-        StorageUtil.clear = function (type) {
-            var storage = this.getStorage(type);
-            if (storage) {
-                storage.clear();
+        StorageWrapper.prototype.clear = function (type) {
+            if (this.storage) {
+                this.storage.clear();
             }
         };
-        return StorageUtil;
+
+        StorageWrapper.prototype.getType = function () {
+            return this.type;
+        };
+        StorageWrapper.prototype.getStorage = function () {
+            return this.storage;
+        };
+        return StorageWrapper;
     })();
-    berek.StorageUtil = StorageUtil;
+    berek.StorageWrapper = StorageWrapper;
 })(berek || (berek = {}));
 var illa;
 (function (illa) {
