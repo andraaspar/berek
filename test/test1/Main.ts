@@ -9,6 +9,7 @@
 /// <reference path='../../src/berek/DimensionsUtil.ts'/>
 /// <reference path='../../src/berek/PointerUtil.ts'/>
 /// <reference path='../../src/berek/ScrollbarUtil.ts'/>
+/// <reference path='../../src/berek/StorageUtil.ts'/>
 /// <reference path='../../src/berek/UnitTest.ts'/>
 
 module test1 {

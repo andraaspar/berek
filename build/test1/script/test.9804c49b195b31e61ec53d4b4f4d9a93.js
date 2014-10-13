@@ -883,6 +883,96 @@ var berek;
     })();
     berek.ScrollbarUtil = ScrollbarUtil;
 })(berek || (berek = {}));
+var berek;
+(function (berek) {
+    (function (StorageType) {
+        StorageType[StorageType["LOCAL"] = 0] = "LOCAL";
+        StorageType[StorageType["SESSION"] = 1] = "SESSION";
+    })(berek.StorageType || (berek.StorageType = {}));
+    var StorageType = berek.StorageType;
+})(berek || (berek = {}));
+var berek;
+(function (berek) {
+    var StorageUtil = (function () {
+        function StorageUtil() {
+        }
+        StorageUtil.isStorageSupported = function (type) {
+            var result = false;
+            var storage = this.getStorage(type);
+            if (storage) {
+                try  {
+                    var itemName = 'berek_StorageUtil_test';
+                    storage.setItem(itemName, '1');
+                    result = storage.getItem(itemName) === '1';
+                    storage.removeItem(itemName);
+                } catch (e) {
+                    result = false;
+                }
+            }
+            return result;
+        };
+
+        StorageUtil.getStorage = function (type) {
+            var result;
+            try  {
+                switch (type) {
+                    case 0 /* LOCAL */:
+                        result = window.localStorage;
+                        break;
+                    case 1 /* SESSION */:
+                        result = window.sessionStorage;
+                        break;
+                }
+            } catch (e) {
+            }
+            return result;
+        };
+
+        StorageUtil.getKey = function (type, i) {
+            var result;
+            var storage = this.getStorage(type);
+            if (storage) {
+                result = storage.key(i);
+            }
+            return result;
+        };
+
+        StorageUtil.getItem = function (type, k) {
+            var result;
+            var storage = this.getStorage(type);
+            if (storage) {
+                result = storage.getItem(k);
+            }
+            return result;
+        };
+
+        StorageUtil.setItem = function (type, k, v) {
+            var storage = this.getStorage(type);
+            if (storage) {
+                try  {
+                    storage.setItem(k, v);
+                } catch (e) {
+                }
+            }
+        };
+
+        StorageUtil.removeItem = function (type, k) {
+            var storage = this.getStorage(type);
+            if (storage) {
+                storage.removeItem(k);
+            }
+        };
+
+        StorageUtil.clear = function (type) {
+            var storage = this.getStorage(type);
+            if (storage) {
+                storage.clear();
+            }
+        };
+        return StorageUtil;
+    })();
+    berek.StorageUtil = StorageUtil;
+})(berek || (berek = {}));
 var illa;
 (function (illa) {
     var UnitTest = (function () {
