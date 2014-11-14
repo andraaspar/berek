@@ -11,6 +11,7 @@
 /// <reference path='../../src/berek/ScrollbarUtil.ts'/>
 /// <reference path='../../src/berek/StorageWrapper.ts'/>
 /// <reference path='../../src/berek/UnitTest.ts'/>
+/// <reference path='../../src/berek/Widget.ts'/>
 
 module test1 {
 	

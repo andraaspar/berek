@@ -1014,6 +1014,16 @@ var illa;
             return this.assert(errorThrown, desc);
         };
 
+        UnitTest.prototype.assertEquals = function (received, expected, desc) {
+            if (typeof desc === "undefined") { desc = ''; }
+            var result = this.assert(received === expected, desc);
+            if (!result) {
+                this.info('Received:', received);
+                this.info('Expected:', expected);
+            }
+            return result;
+        };
+
         UnitTest.prototype.printStats = function () {
             this.info(this.testCount + ' tests completed: ' + this.successCount + ' succeeded, ' + this.failCount + ' failed.');
         };
@@ -1073,6 +1083,46 @@ var berek;
         return UnitTest;
     })(illa.UnitTest);
     berek.UnitTest = UnitTest;
+})(berek || (berek = {}));
+var berek;
+(function (berek) {
+    var Widget = (function (_super) {
+        __extends(Widget, _super);
+        function Widget(jq) {
+            _super.call(this);
+
+            this.jQuery = jq;
+
+            this.jQuery.data(Widget.JQUERY_DATA_KEY, this);
+            if (!(Widget.EVENT_DESTROYED in jQuery.event.special)) {
+                jQuery.event.special[Widget.EVENT_DESTROYED] = {
+                    remove: function (o) {
+                        if (o.handler) {
+                            o.handler(null);
+                        }
+                    }
+                };
+            }
+        }
+        Widget.prototype.getJQuery = function () {
+            return this.jQuery;
+        };
+
+        Widget.getFrom = function (source) {
+            var result = null;
+            if (source) {
+                var stored = source.data(Widget.JQUERY_DATA_KEY);
+                if (stored instanceof Widget) {
+                    result = stored;
+                }
+            }
+            return result;
+        };
+        Widget.JQUERY_DATA_KEY = 'berek_Widget';
+        Widget.EVENT_DESTROYED = 'berek_Widget_EVENT_DESTROYED';
+        return Widget;
+    })(illa.EventHandler);
+    berek.Widget = Widget;
 })(berek || (berek = {}));
 var test1;
 (function (test1) {
