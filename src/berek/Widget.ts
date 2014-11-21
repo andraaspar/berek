@@ -9,6 +9,7 @@ module berek {
 		static EVENT_DESTROYED = 'berek_Widget_EVENT_DESTROYED';
 		
 		private jQuery: jQuery.IInstance;
+		private isDestroyed = false;
 		
 		constructor(jq: jQuery.IInstance) {
 			super();
@@ -25,10 +26,21 @@ module berek {
 					}
 				};
 			}
+			
+			this.jQuery.on(Widget.EVENT_DESTROYED, illa.bind(this.onDestroyed, this));
 		}
 
 		getJQuery(): jQuery.IInstance {
 			return this.jQuery;
+		}
+
+		getIsDestroyed(): boolean {
+			return this.isDestroyed;
+		}
+		
+		onDestroyed(e: jQuery.IEvent): void {
+			this.isDestroyed = true;
+			this.removeAllEventCallbacks();
 		}
 
 		static getFrom(source: jQuery.IInstance): Widget {

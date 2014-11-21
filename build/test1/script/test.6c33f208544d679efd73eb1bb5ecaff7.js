@@ -1,9 +1,12 @@
 var illa;
 (function (illa) {
+    /**
+     * A reference to the global object.
+     * This is the window in a browser, and the global in node.
+     */
     illa.GLOBAL = (function () {
         return this;
     })();
-
     illa.classByType = (function () {
         var classes = 'Boolean Number String Function Array Date RegExp Object Error'.split(' ');
         var result = {};
@@ -12,61 +15,82 @@ var illa;
         }
         return result;
     })();
-
+    /**
+     * Returns true if the value is a string primitive.
+     */
     function isString(v) {
         return typeof v == 'string';
     }
     illa.isString = isString;
-
+    /**
+     * Returns true if the value is a boolean primitive.
+     */
     function isBoolean(v) {
         return typeof v == 'boolean';
     }
     illa.isBoolean = isBoolean;
-
+    /**
+     * Returns true if the value is a number primitive.
+     */
     function isNumber(v) {
         return typeof v == 'number';
     }
     illa.isNumber = isNumber;
-
+    /**
+     * Returns true if the value is a function.
+     */
     function isFunction(v) {
         return typeof v == 'function';
     }
     illa.isFunction = isFunction;
-
+    /**
+     * Returns true if the value is an array.
+     * Array subclasses are not recognized as arrays.
+     */
     function isArray(v) {
         return illa.getType(v) == 'array';
     }
     illa.isArray = isArray;
-
     if (Array.isArray)
         illa.isArray = Array.isArray;
-
+    /**
+     * Returns true if the value is undefined.
+     */
     function isUndefined(v) {
         return typeof v == 'undefined';
     }
     illa.isUndefined = isUndefined;
-
+    /**
+     * Returns true if the value is null.
+     */
     function isNull(v) {
         return v === null;
     }
     illa.isNull = isNull;
-
+    /**
+     * Returns true if the value is undefined or null.
+     */
     function isUndefinedOrNull(v) {
         return typeof v == 'undefined' || v === null;
     }
     illa.isUndefinedOrNull = isUndefinedOrNull;
-
+    /**
+     * Returns true if the value is an object and not null. Includes functions.
+     */
     function isObjectNotNull(v) {
         var t = typeof v;
         return t == 'object' && v !== null || t == 'function';
     }
     illa.isObjectNotNull = isObjectNotNull;
-
+    /**
+     * Returns the type of value.
+     */
     function getType(v) {
         var result = '';
         if (v == null) {
             result = v + '';
-        } else {
+        }
+        else {
             result = typeof v;
             if (result == 'object' || result == 'function') {
                 result = illa.classByType[illa.classByType.toString.call(v)] || 'object';
@@ -75,12 +99,17 @@ var illa;
         return result;
     }
     illa.getType = getType;
-
+    /**
+     * Returns the value if ‘instanceof’ is true for the given constructor.
+     */
     function as(c, v) {
         return v instanceof c ? v : null;
     }
     illa.as = as;
-
+    /**
+     * Binds a function to a ‘this’ context.
+     * No argument binding allows us to keep function type safety.
+     */
     function bind(fn, obj) {
         if (!fn)
             throw 'No function.';
@@ -89,11 +118,14 @@ var illa;
         };
     }
     illa.bind = bind;
-
+    /**
+     * Binds a function to a ‘this’ context, and also prepends the specified arguments
+     * This is not type safe because of argument binding.
+     */
     function partial(fn, obj) {
         var args = [];
-        for (var _i = 0; _i < (arguments.length - 2); _i++) {
-            args[_i] = arguments[_i + 2];
+        for (var _i = 2; _i < arguments.length; _i++) {
+            args[_i - 2] = arguments[_i];
         }
         if (!fn)
             throw 'No function.';
@@ -102,7 +134,6 @@ var illa;
         };
     }
     illa.partial = partial;
-
     if (Function.prototype.bind) {
         illa.bind = illa.partial = function (fn, obj) {
             return fn.call.apply(fn.bind, arguments);
@@ -117,11 +148,13 @@ var illa;
         ArrayUtil.indexOf = function (a, v, fromIndex) {
             if (Array.prototype.indexOf) {
                 return Array.prototype.indexOf.call(a, v, fromIndex);
-            } else {
+            }
+            else {
                 var length = a.length;
                 if (fromIndex == null) {
                     fromIndex = 0;
-                } else if (fromIndex < 0) {
+                }
+                else if (fromIndex < 0) {
                     fromIndex = Math.max(0, length + fromIndex);
                 }
                 for (var i = fromIndex; i < length; i++) {
@@ -132,7 +165,6 @@ var illa;
             }
             return -1;
         };
-
         ArrayUtil.removeFirst = function (a, v) {
             var i = this.indexOf(a, v);
             var removed = i >= 0;
@@ -141,7 +173,6 @@ var illa;
             }
             return removed;
         };
-
         ArrayUtil.removeAll = function (a, v) {
             var removed = false;
             for (var i = a.length - 1; i >= 0; i--) {
@@ -156,6 +187,7 @@ var illa;
     })();
     illa.ArrayUtil = ArrayUtil;
 })(illa || (illa = {}));
+/// <reference path='_module.ts'/>
 var illa;
 (function (illa) {
     var Log = (function () {
@@ -163,70 +195,77 @@ var illa;
         }
         Log.log = function () {
             var args = [];
-            for (var _i = 0; _i < (arguments.length - 0); _i++) {
-                args[_i] = arguments[_i + 0];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i - 0] = arguments[_i];
             }
             var console = illa.GLOBAL.console;
             if (console && console.log) {
                 if (console.log.apply) {
                     console.log.apply(console, args);
-                } else {
+                }
+                else {
                     console.log(args.join(' '));
                 }
             }
         };
         Log.info = function () {
             var args = [];
-            for (var _i = 0; _i < (arguments.length - 0); _i++) {
-                args[_i] = arguments[_i + 0];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i - 0] = arguments[_i];
             }
             var console = illa.GLOBAL.console;
             if (console && console.info) {
                 if (console.info.apply) {
                     console.info.apply(console, args);
-                } else {
+                }
+                else {
                     console.info(args.join(' '));
                 }
-            } else {
+            }
+            else {
                 Log.log.apply(this, args);
             }
         };
         Log.warn = function () {
             var args = [];
-            for (var _i = 0; _i < (arguments.length - 0); _i++) {
-                args[_i] = arguments[_i + 0];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i - 0] = arguments[_i];
             }
             var console = illa.GLOBAL.console;
             if (console && console.warn) {
                 if (console.warn.apply) {
                     console.warn.apply(console, args);
-                } else {
+                }
+                else {
                     console.warn(args.join(' '));
                 }
-            } else {
+            }
+            else {
                 Log.log.apply(this, args);
             }
         };
         Log.error = function () {
             var args = [];
-            for (var _i = 0; _i < (arguments.length - 0); _i++) {
-                args[_i] = arguments[_i + 0];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                args[_i - 0] = arguments[_i];
             }
             var console = illa.GLOBAL.console;
             if (console && console.error) {
                 if (console.error.apply) {
                     console.error.apply(console, args);
-                } else {
+                }
+                else {
                     console.error(args.join(' '));
                 }
-            } else {
+            }
+            else {
                 Log.log.apply(this, args);
             }
         };
         Log.logIf = function (test) {
             var args = [];
-            for (var _i = 0; _i < (arguments.length - 1); _i++) {
-                args[_i] = arguments[_i + 1];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                args[_i - 1] = arguments[_i];
             }
             if (test) {
                 Log.log.apply(this, [test].concat(args));
@@ -234,8 +273,8 @@ var illa;
         };
         Log.infoIf = function (test) {
             var args = [];
-            for (var _i = 0; _i < (arguments.length - 1); _i++) {
-                args[_i] = arguments[_i + 1];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                args[_i - 1] = arguments[_i];
             }
             if (test) {
                 Log.info.apply(this, [test].concat(args));
@@ -243,8 +282,8 @@ var illa;
         };
         Log.warnIf = function (test) {
             var args = [];
-            for (var _i = 0; _i < (arguments.length - 1); _i++) {
-                args[_i] = arguments[_i + 1];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                args[_i - 1] = arguments[_i];
             }
             if (test) {
                 Log.warn.apply(this, [test].concat(args));
@@ -252,8 +291,8 @@ var illa;
         };
         Log.errorIf = function (test) {
             var args = [];
-            for (var _i = 0; _i < (arguments.length - 1); _i++) {
-                args[_i] = arguments[_i + 1];
+            for (var _i = 1; _i < arguments.length; _i++) {
+                args[_i - 1] = arguments[_i];
             }
             if (test) {
                 Log.error.apply(this, [test].concat(args));
@@ -273,15 +312,12 @@ var illa;
                 return StringUtil.CHAR_TO_HTML[s];
             });
         };
-
         StringUtil.castNicely = function (str) {
             return str == null ? '' : String(str);
         };
-
         StringUtil.trim = function (str) {
             return str.replace(/^\s+|\s+$/g, '');
         };
-
         StringUtil.escapeRegExp = function (str) {
             return str.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
         };
@@ -290,12 +326,13 @@ var illa;
             '<': '&lt;',
             '>': '&gt;',
             '"': '&quot;',
-            "'": '&#39;'
+            "'": '&#39;' // IE8 does not support &apos;
         };
         return StringUtil;
     })();
     illa.StringUtil = StringUtil;
 })(illa || (illa = {}));
+/// <reference path='IEventCallback.ts'/>
 var illa;
 (function (illa) {
     var EventCallbackReg = (function () {
@@ -307,6 +344,9 @@ var illa;
     })();
     illa.EventCallbackReg = EventCallbackReg;
 })(illa || (illa = {}));
+/// <reference path='IEventCallback.ts'/>
+/// <reference path='EventCallbackReg.ts'/>
+/// <reference path='IEventHandler.ts'/>
 var illa;
 (function (illa) {
     var Event = (function () {
@@ -319,7 +359,6 @@ var illa;
         Event.prototype.dispatch = function () {
             this.processHandler(this.target);
         };
-
         Event.prototype.processHandler = function (handler) {
             this.currentTarget = handler;
             var callbackRegs = handler.getCallbackRegsByType(this.type).slice(0);
@@ -335,31 +374,24 @@ var illa;
                     this.processHandler(parentHandler);
             }
         };
-
         Event.prototype.getType = function () {
             return this.type;
         };
-
         Event.prototype.getTarget = function () {
             return this.target;
         };
-
         Event.prototype.getCurrentTarget = function () {
             return this.currentTarget;
         };
-
         Event.prototype.setIsPropagationStopped = function (flag) {
             this.isPropagationStopped = flag;
         };
-
         Event.prototype.getIsPropagationStopped = function () {
             return this.isPropagationStopped;
         };
-
         Event.prototype.setStopImmediatePropagation = function (flag) {
             this.isImmediatePropagationStopped = flag;
         };
-
         Event.prototype.getIsImmediatePropagationStopped = function () {
             return this.isImmediatePropagationStopped;
         };
@@ -367,6 +399,7 @@ var illa;
     })();
     illa.Event = Event;
 })(illa || (illa = {}));
+/// <reference path='IEventHandler.ts'/>
 var illa;
 (function (illa) {
     var EventHandler = (function () {
@@ -379,21 +412,19 @@ var illa;
                 result = [];
             return result;
         };
-
         EventHandler.prototype.getEventParent = function () {
             return null;
         };
-
         EventHandler.prototype.addEventCallback = function (type, cb, thisObj) {
             var reg = new illa.EventCallbackReg(cb, thisObj);
             if (illa.isArray(this.callbacksByType[type])) {
                 this.removeEventCallback(type, cb, thisObj);
                 this.callbacksByType[type].push(reg);
-            } else {
+            }
+            else {
                 this.callbacksByType[type] = [reg];
             }
         };
-
         EventHandler.prototype.removeEventCallback = function (type, cb, thisObj) {
             var callbacks = this.callbacksByType[type];
             if (illa.isArray(callbacks)) {
@@ -406,7 +437,6 @@ var illa;
                 }
             }
         };
-
         EventHandler.prototype.removeAllEventCallbacks = function () {
             this.callbacksByType = {};
         };
@@ -414,6 +444,9 @@ var illa;
     })();
     illa.EventHandler = EventHandler;
 })(illa || (illa = {}));
+/// <reference path='_module.ts'/>
+/// <reference path='Event.ts'/>
+/// <reference path='EventHandler.ts'/>
 var __extends = this.__extends || function (d, b) {
     for (var p in b) if (b.hasOwnProperty(p)) d[p] = b[p];
     function __() { this.constructor = d; }
@@ -434,31 +467,30 @@ var illa;
         Ticker.prototype.getIsStarted = function () {
             return !illa.isUndefined(this.intervalID);
         };
-
         Ticker.prototype.setIsStarted = function (flag) {
             if (this.getIsStarted() == flag)
                 return;
-
             if (flag) {
                 if (this.supportsAnimationFrame) {
                     this.intervalID = requestAnimationFrame(this.onTickBound);
-                } else {
+                }
+                else {
                     this.intervalID = setInterval(this.onTickBound, 1000 / 60);
                 }
-            } else {
+            }
+            else {
                 if (this.supportsAnimationFrame) {
                     cancelAnimationFrame(this.intervalID);
-                } else {
+                }
+                else {
                     clearInterval(this.intervalID);
                 }
                 this.intervalID = undefined;
             }
         };
-
         Ticker.prototype.getSupportsAnimationFrame = function () {
             return this.supportsAnimationFrame;
         };
-
         Ticker.prototype.onTick = function () {
             new illa.Event(Ticker.EVENT_BEFORE_TICK, this).dispatch();
             this.tickCount++;
@@ -468,7 +500,6 @@ var illa;
             new illa.Event(Ticker.EVENT_TICK, this).dispatch();
             new illa.Event(Ticker.EVENT_AFTER_TICK, this).dispatch();
         };
-
         Ticker.prototype.getTickCount = function () {
             return this.tickCount;
         };
@@ -479,6 +510,83 @@ var illa;
     })(illa.EventHandler);
     illa.Ticker = Ticker;
 })(illa || (illa = {}));
+/// <reference path='IAJAXSettingsBeforeSendFunction.ts'/>
+/// <reference path='IAJAXSettingsCompleteFunction.ts'/>
+/// <reference path='IAJAXSettingsContentsObject.ts'/>
+/// <reference path='IAJAXSettingsDataFilterFunction.ts'/>
+/// <reference path='IAJAXSettingsXHRFunction.ts'/>
+/// <reference path='IXHRDoneFunction.ts'/>
+/// <reference path='IXHRFailFunction.ts'/>
+/// <reference path='IAJAXTransportCompleteFunction.ts'/>
+/// <reference path='IAJAXTransportObject.ts'/>
+/// <reference path='ICSSHookObject.ts'/>
+/// <reference path='IEvent.ts'/>
+/// <reference path='IPromise.ts'/>
+/// <reference path='IPromise.ts'/>
+/// <reference path='IPromise.ts'/>
+/// <reference path='IAnimationOptions.ts'/>
+/// <reference path='ITween.ts'/>
+/// <reference path='IAnimationDoneFunction.ts'/>
+/// <reference path='IAnimationProgressFunction.ts'/>
+/// <reference path='IAnimationStartFunction.ts'/>
+/// <reference path='IAnimationStepFunction.ts'/>
+/// <reference path='ISpecialEasingObject.ts'/>
+/// <reference path='IPositionObject.ts'/>
+/// <reference path='IEvent.ts'/>
+/// <reference path='IEventHandler.ts'/>
+/// <reference path='IAddClassFunction.ts'/>
+/// <reference path='IAJAXCompleteFunction.ts'/>
+/// <reference path='IAJAXErrorFunction.ts'/>
+/// <reference path='IAJAXSuccessFunction.ts'/>
+/// <reference path='IAnimationOptions.ts'/>
+/// <reference path='IAppendFunction.ts'/>
+/// <reference path='IAttrFunction.ts'/>
+/// <reference path='IClassToggleFunction.ts'/>
+/// <reference path='ICSSFunction.ts'/>
+/// <reference path='ICSSObject.ts'/>
+/// <reference path='IEachFunction.ts'/>
+/// <reference path='IHTMLFunction.ts'/>
+/// <reference path='IIsFunction.ts'/>
+/// <reference path='ILoadCompleteFunction.ts'/>
+/// <reference path='IOffsetFunction.ts'/>
+/// <reference path='IOnEventsObject.ts'/>
+/// <reference path='IQueueCallbackFunction.ts'/>
+/// <reference path='IReplaceWithFunction.ts'/>
+/// <reference path='ISizeFunction.ts'/>
+/// <reference path='ITextFunction.ts'/>
+/// <reference path='IValFunction.ts'/>
+/// <reference path='IWidthFunction.ts'/>
+/// <reference path='IWrapFunction.ts'/>
+/// <reference path='IEventHandler.ts'/>
+/// <reference path='IEventHandler.ts'/>
+/// <reference path='IStaticEventSpecialHandleObject.ts'/>
+/// <reference path='IStaticEventSpecialSetupFunction.ts'/>
+/// <reference path='IStaticEventSpecialTeardownFunction.ts'/>
+/// <reference path='IStaticEventSpecialAddFunction.ts'/>
+/// <reference path='IStaticEventSpecialAddFunction.ts'/>
+/// <reference path='IEventHandler.ts'/>
+/// <reference path='IStaticEventSpecialObject.ts'/>
+/// <reference path='IStaticEventSpecial.ts'/>
+/// <reference path='IXHRAlwaysFunction.ts'/>
+/// <reference path='IXHRDoneFunction.ts'/>
+/// <reference path='IXHRFailFunction.ts'/>
+/// <reference path='IAJAXSettings.ts'/>
+/// <reference path='IAJAXPrefilterFunction.ts'/>
+/// <reference path='IAJAXTransportHandler.ts'/>
+/// <reference path='ICallbacks.ts'/>
+/// <reference path='ICSSHooksObject.ts'/>
+/// <reference path='IDeferred.ts'/>
+/// <reference path='IDeferredBeforeStartFunction.ts'/>
+/// <reference path='IEachFunction.ts'/>
+/// <reference path='IEachPropertyFunction.ts'/>
+/// <reference path='IEventConstructor.ts'/>
+/// <reference path='IFXObject.ts'/>
+/// <reference path='IGetSuccessFunction.ts'/>
+/// <reference path='IGrepFunction.ts'/>
+/// <reference path='IInstance.ts'/>
+/// <reference path='IMapFunction.ts'/>
+/// <reference path='IStaticEvent.ts'/>
+/// <reference path='IXHR.ts'/>
 var illa;
 (function (illa) {
     (function (Axis2D) {
@@ -513,15 +621,19 @@ var berek;
     })(berek.Context || (berek.Context = {}));
     var Context = berek.Context;
 })(berek || (berek = {}));
+/// <reference path='../../lib/illa/Axis2D.ts'/>
+/// <reference path='../../lib/illa/Alignment.ts'/>
+/// <reference path='../../lib/illa/End.ts'/>
+/// <reference path='../../lib/jQuery.d.ts'/>
+/// <reference path='Context.ts'/>
 var berek;
 (function (berek) {
     var DimensionsUtil = (function () {
         function DimensionsUtil() {
         }
         DimensionsUtil.getSize = function (jq, axis, context) {
-            if (typeof context === "undefined") { context = 1 /* PARENT */; }
+            if (context === void 0) { context = 1 /* PARENT */; }
             var result = NaN;
-
             switch (context) {
                 case 0 /* INNER */:
                     switch (axis) {
@@ -547,9 +659,8 @@ var berek;
             }
             return result;
         };
-
         DimensionsUtil.setSize = function (jq, v, a, context) {
-            if (typeof context === "undefined") { context = 1 /* PARENT */; }
+            if (context === void 0) { context = 1 /* PARENT */; }
             for (var axis = a || 0 /* X */, lastAxis = (a != null ? a : 1 /* Y */); axis <= lastAxis; axis++) {
                 var value = v;
                 switch (context) {
@@ -561,7 +672,8 @@ var berek;
                 }
                 if (isNaN(value) || !isFinite(value)) {
                     value = 0;
-                } else {
+                }
+                else {
                     value = Math.max(0, Math.round(value));
                 }
                 switch (axis) {
@@ -574,10 +686,9 @@ var berek;
                 }
             }
         };
-
         DimensionsUtil.getOffset = function (jq, axis, alignment, context) {
-            if (typeof alignment === "undefined") { alignment = 0 /* START */; }
-            if (typeof context === "undefined") { context = 1 /* PARENT */; }
+            if (alignment === void 0) { alignment = 0 /* START */; }
+            if (context === void 0) { context = 1 /* PARENT */; }
             var result = NaN;
             var offset;
             switch (context) {
@@ -608,19 +719,19 @@ var berek;
             }
             return result;
         };
-
         DimensionsUtil.setOffset = function (jq, v, a, alignment, context, preventNegative) {
-            if (typeof alignment === "undefined") { alignment = 0 /* START */; }
-            if (typeof context === "undefined") { context = 1 /* PARENT */; }
-            if (typeof preventNegative === "undefined") { preventNegative = false; }
+            if (alignment === void 0) { alignment = 0 /* START */; }
+            if (context === void 0) { context = 1 /* PARENT */; }
+            if (preventNegative === void 0) { preventNegative = false; }
             for (var axis = a || 0 /* X */, lastAxis = (a != null ? a : 1 /* Y */); axis <= lastAxis; axis++) {
                 var value = v;
                 if (context == 2 /* PAGE */) {
                     var pageOffset = this.getOffset(jq, axis, 0 /* START */, 2 /* PAGE */);
                     var currentOffset = this.getOffset(jq, axis);
-                    value -= pageOffset - currentOffset;
-                } else if (context == 0 /* INNER */) {
-                    value += this.getOffset(jq, axis);
+                    value -= pageOffset - currentOffset; // Page offset of parent
+                }
+                else if (context == 0 /* INNER */) {
+                    value += this.getOffset(jq, axis); // Parent offset
                 }
                 if (alignment != 0 /* START */) {
                     var size = this.getSize(jq, axis, context);
@@ -631,7 +742,8 @@ var berek;
                 }
                 if (isNaN(value) || !isFinite(value)) {
                     value = 0;
-                } else {
+                }
+                else {
                     value = Math.round(value);
                     if (preventNegative)
                         value = Math.max(0, value);
@@ -646,7 +758,6 @@ var berek;
                 }
             }
         };
-
         DimensionsUtil.getDirection = function (axis, end) {
             switch (axis) {
                 case 0 /* X */:
@@ -668,7 +779,6 @@ var berek;
             }
             return '';
         };
-
         DimensionsUtil.getCSSProperty = function (prefix, suffix, jq, axis, e) {
             var result = 0;
             for (var end = e || 0 /* MIN */, lastEnd = (e != null ? e : 1 /* MAX */); end <= lastEnd; end++) {
@@ -676,11 +786,11 @@ var berek;
             }
             return result;
         };
-
         DimensionsUtil.setCSSProperty = function (prefix, suffix, jq, value, a, e) {
             if (a == null && e == null) {
                 jq.css(suffix ? prefix + '-' + suffix : prefix, value);
-            } else {
+            }
+            else {
                 for (var axis = a || 0 /* X */, lastAxis = (a != null ? a : 1 /* Y */); axis <= lastAxis; axis++) {
                     for (var end = e || 0 /* MIN */, lastEnd = (e != null ? e : 1 /* MAX */); end <= lastEnd; end++) {
                         jq.css(prefix + '-' + this.getDirection(axis, end) + '-' + suffix, value);
@@ -688,27 +798,21 @@ var berek;
                 }
             }
         };
-
         DimensionsUtil.getPadding = function (jq, axis, e) {
             return this.getCSSProperty('padding', '', jq, axis, e);
         };
-
         DimensionsUtil.setPadding = function (jq, value, a, e) {
             this.setCSSProperty('padding', '', jq, value, a, e);
         };
-
         DimensionsUtil.getBorder = function (jq, axis, e) {
             return this.getCSSProperty('border', 'width', jq, axis, e);
         };
-
         DimensionsUtil.setBorder = function (jq, value, a, e) {
             this.setCSSProperty('border', 'width', jq, value, a, e);
         };
-
         DimensionsUtil.getMargin = function (jq, axis, e) {
             return this.getCSSProperty('margin', '', jq, axis, e);
         };
-
         DimensionsUtil.setMargin = function (jq, value, a, e) {
             this.setCSSProperty('margin', '', jq, value, a, e);
         };
@@ -734,18 +838,20 @@ var berek;
     })(berek.PointerEventSource || (berek.PointerEventSource = {}));
     var PointerEventSource = berek.PointerEventSource;
 })(berek || (berek = {}));
+/// <reference path='PointerCoordsContext.ts'/>
+/// <reference path='PointerEventSource.ts'/>
+/// <reference path='IPointerCoords.ts'/>
+/// <reference path='../../lib/jQuery.d.ts'/>
 var berek;
 (function (berek) {
     var PointerUtil = (function () {
         function PointerUtil() {
         }
         PointerUtil.getCoords = function (e, context, coordID) {
-            if (typeof context === "undefined") { context = 1 /* PAGE */; }
-            if (typeof coordID === "undefined") { coordID = 0; }
+            if (context === void 0) { context = 1 /* PAGE */; }
+            if (coordID === void 0) { coordID = 0; }
             var result = { x: NaN, y: NaN };
-
             var coordSource;
-
             switch (this.getSource(e)) {
                 case 1 /* MOUSE */:
                     if (coordID == 0)
@@ -755,25 +861,22 @@ var berek;
                     coordSource = e.originalEvent.touches[coordID];
                     break;
             }
-
             if (coordSource) {
                 var contextPrefix = berek.PointerCoordsContext[context].toLowerCase();
                 result.x = coordSource[contextPrefix + 'X'];
                 result.y = coordSource[contextPrefix + 'Y'];
             }
-
             return result;
         };
-
         PointerUtil.getSource = function (e) {
             if (illa.GLOBAL.TouchEvent && e.originalEvent instanceof illa.GLOBAL.TouchEvent) {
                 return 2 /* TOUCH */;
-            } else if (illa.GLOBAL.MouseEvent && e.originalEvent instanceof MouseEvent || e.type.indexOf('mouse') == 0 || e.type.indexOf('click') != -1 || e.type == 'contextmenu') {
+            }
+            else if (illa.GLOBAL.MouseEvent && e.originalEvent instanceof MouseEvent || e.type.indexOf('mouse') == 0 || e.type.indexOf('click') != -1 || e.type == 'contextmenu') {
                 return 1 /* MOUSE */;
             }
             return 0 /* OTHER */;
         };
-
         PointerUtil.getCoordCount = function (e) {
             var result = 1;
             switch (this.getSource(e)) {
@@ -787,6 +890,8 @@ var berek;
     })();
     berek.PointerUtil = PointerUtil;
 })(berek || (berek = {}));
+/// <reference path='../../lib/illa/Axis2D.ts'/>
+/// <reference path='../../lib/jQuery.d.ts'/>
 var berek;
 (function (berek) {
     var ScrollbarUtil = (function () {
@@ -795,7 +900,8 @@ var berek;
             this.defaultHeight = NaN;
             if (box) {
                 this.box = box;
-            } else {
+            }
+            else {
                 this.box = jQuery('<div>');
             }
             this.box.addClass(ScrollbarUtil.CSS_CLASS);
@@ -803,13 +909,11 @@ var berek;
         }
         ScrollbarUtil.prototype.getDefaultSize = function (axis) {
             var result = NaN;
-
             if (isNaN(this.defaultWidth)) {
                 var boxElement = this.box[0];
                 this.defaultWidth = Math.ceil(boxElement.offsetWidth - boxElement.clientWidth);
                 this.defaultHeight = Math.ceil(boxElement.offsetHeight - boxElement.clientHeight);
             }
-
             switch (axis) {
                 case 0 /* X */:
                     result = this.defaultWidth;
@@ -818,14 +922,12 @@ var berek;
                     result = this.defaultHeight;
                     break;
             }
-
             return result;
         };
-
         ScrollbarUtil.prototype.clearDefaultSizeCache = function () {
+            // Only the width is checked
             this.defaultWidth = NaN;
         };
-
         ScrollbarUtil.isVisibleOn = function (jq, axis) {
             var elem = jq[0];
             if (!elem)
@@ -853,7 +955,6 @@ var berek;
             }
             return false;
         };
-
         ScrollbarUtil.getScroll = function (jq, axis) {
             var result = NaN;
             switch (axis) {
@@ -866,7 +967,6 @@ var berek;
             }
             return result;
         };
-
         ScrollbarUtil.setScroll = function (jq, value, axis) {
             switch (axis) {
                 default:
@@ -891,6 +991,7 @@ var berek;
     })(berek.StorageType || (berek.StorageType = {}));
     var StorageType = berek.StorageType;
 })(berek || (berek = {}));
+/// <reference path='StorageType.ts'/>
 var berek;
 (function (berek) {
     var StorageWrapper = (function () {
@@ -901,21 +1002,21 @@ var berek;
         StorageWrapper.isStorageSupported = function (type) {
             var result = false;
             var storageWrapper = new StorageWrapper(type);
-            try  {
+            try {
                 var itemName = 'berek_StorageUtil_test';
                 var value = '1';
                 storageWrapper.setItem(itemName, value);
                 result = storageWrapper.getItem(itemName) === value;
                 storageWrapper.removeItem(itemName);
-            } catch (e) {
+            }
+            catch (e) {
                 result = false;
             }
             return result;
         };
-
         StorageWrapper.prototype.getNativeStorage = function (type) {
             var result;
-            try  {
+            try {
                 switch (type) {
                     case 0 /* LOCAL */:
                         result = window.localStorage;
@@ -924,11 +1025,11 @@ var berek;
                         result = window.sessionStorage;
                         break;
                 }
-            } catch (e) {
+            }
+            catch (e) {
             }
             return result;
         };
-
         StorageWrapper.prototype.getKey = function (i) {
             var result;
             if (this.storage) {
@@ -936,7 +1037,6 @@ var berek;
             }
             return result;
         };
-
         StorageWrapper.prototype.getItem = function (k) {
             var result;
             if (this.storage) {
@@ -944,31 +1044,28 @@ var berek;
             }
             return result;
         };
-
         StorageWrapper.prototype.setItem = function (k, v) {
             var success = false;
             if (this.storage) {
-                try  {
+                try {
                     this.storage.setItem(k, v);
                     success = true;
-                } catch (e) {
+                }
+                catch (e) {
                 }
             }
             return success;
         };
-
         StorageWrapper.prototype.removeItem = function (k) {
             if (this.storage) {
                 this.storage.removeItem(k);
             }
         };
-
         StorageWrapper.prototype.clear = function (type) {
             if (this.storage) {
                 this.storage.clear();
             }
         };
-
         StorageWrapper.prototype.getType = function () {
             return this.type;
         };
@@ -979,6 +1076,8 @@ var berek;
     })();
     berek.StorageWrapper = StorageWrapper;
 })(berek || (berek = {}));
+/// <reference path='_module.ts'/>
+/// <reference path='Log.ts'/>
 var illa;
 (function (illa) {
     var UnitTest = (function () {
@@ -988,34 +1087,35 @@ var illa;
             this.failCount = 0;
         }
         UnitTest.prototype.assert = function (test, desc) {
-            if (typeof desc === "undefined") { desc = ''; }
+            if (desc === void 0) { desc = ''; }
             this.testCount++;
             if (test === true) {
                 this.successCount++;
-            } else {
+            }
+            else {
                 this.failCount++;
                 if (desc) {
                     this.warn('Test failed: ' + desc);
-                } else {
+                }
+                else {
                     throw 'Test failed.';
                 }
             }
             return test;
         };
-
         UnitTest.prototype.assertThrowsError = function (fn, desc) {
-            if (typeof desc === "undefined") { desc = ''; }
+            if (desc === void 0) { desc = ''; }
             var errorThrown = false;
-            try  {
+            try {
                 fn();
-            } catch (e) {
+            }
+            catch (e) {
                 errorThrown = true;
             }
             return this.assert(errorThrown, desc);
         };
-
         UnitTest.prototype.assertEquals = function (received, expected, desc) {
-            if (typeof desc === "undefined") { desc = ''; }
+            if (desc === void 0) { desc = ''; }
             var result = this.assert(received === expected, desc);
             if (!result) {
                 this.info('Received:', received);
@@ -1023,23 +1123,20 @@ var illa;
             }
             return result;
         };
-
         UnitTest.prototype.printStats = function () {
             this.info(this.testCount + ' tests completed: ' + this.successCount + ' succeeded, ' + this.failCount + ' failed.');
         };
-
         UnitTest.prototype.info = function () {
             var r = [];
-            for (var _i = 0; _i < (arguments.length - 0); _i++) {
-                r[_i] = arguments[_i + 0];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                r[_i - 0] = arguments[_i];
             }
             illa.Log.info.apply(illa.Log, r);
         };
-
         UnitTest.prototype.warn = function () {
             var r = [];
-            for (var _i = 0; _i < (arguments.length - 0); _i++) {
-                r[_i] = arguments[_i + 0];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                r[_i - 0] = arguments[_i];
             }
             illa.Log.warn.apply(illa.Log, r);
         };
@@ -1047,6 +1144,8 @@ var illa;
     })();
     illa.UnitTest = UnitTest;
 })(illa || (illa = {}));
+/// <reference path='../../lib/illa/UnitTest.ts'/>
+/// <reference path='../../lib/jQuery.d.ts'/>
 var berek;
 (function (berek) {
     var UnitTest = (function (_super) {
@@ -1057,26 +1156,27 @@ var berek;
         }
         UnitTest.prototype.info = function () {
             var r = [];
-            for (var _i = 0; _i < (arguments.length - 0); _i++) {
-                r[_i] = arguments[_i + 0];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                r[_i - 0] = arguments[_i];
             }
             if (this.printTarget) {
                 var out = jQuery('<p>').text(r.join(' '));
                 this.printTarget.append(out);
-            } else {
+            }
+            else {
                 _super.prototype.info.apply(this, r);
             }
         };
-
         UnitTest.prototype.warn = function () {
             var r = [];
-            for (var _i = 0; _i < (arguments.length - 0); _i++) {
-                r[_i] = arguments[_i + 0];
+            for (var _i = 0; _i < arguments.length; _i++) {
+                r[_i - 0] = arguments[_i];
             }
             if (this.printTarget) {
                 var out = jQuery('<p>').text(r.join(' ')).prepend('<b>WARNING: </b>');
                 this.printTarget.append(out);
-            } else {
+            }
+            else {
                 _super.prototype.warn.apply(this, r);
             }
         };
@@ -1084,15 +1184,16 @@ var berek;
     })(illa.UnitTest);
     berek.UnitTest = UnitTest;
 })(berek || (berek = {}));
+/// <reference path='../../lib/illa/EventHandler.ts'/>
+/// <reference path='../../lib/jQuery.d.ts'/>
 var berek;
 (function (berek) {
     var Widget = (function (_super) {
         __extends(Widget, _super);
         function Widget(jq) {
             _super.call(this);
-
+            this.isDestroyed = false;
             this.jQuery = jq;
-
             this.jQuery.data(Widget.JQUERY_DATA_KEY, this);
             if (!(Widget.EVENT_DESTROYED in jQuery.event.special)) {
                 jQuery.event.special[Widget.EVENT_DESTROYED] = {
@@ -1103,11 +1204,18 @@ var berek;
                     }
                 };
             }
+            this.jQuery.on(Widget.EVENT_DESTROYED, illa.bind(this.onDestroyed, this));
         }
         Widget.prototype.getJQuery = function () {
             return this.jQuery;
         };
-
+        Widget.prototype.getIsDestroyed = function () {
+            return this.isDestroyed;
+        };
+        Widget.prototype.onDestroyed = function (e) {
+            this.isDestroyed = true;
+            this.removeAllEventCallbacks();
+        };
         Widget.getFrom = function (source) {
             var result = null;
             if (source) {
@@ -1124,6 +1232,18 @@ var berek;
     })(illa.EventHandler);
     berek.Widget = Widget;
 })(berek || (berek = {}));
+/// <reference path='../../lib/illa/_module.ts'/>
+/// <reference path='../../lib/illa/ArrayUtil.ts'/>
+/// <reference path='../../lib/illa/Log.ts'/>
+/// <reference path='../../lib/illa/StringUtil.ts'/>
+/// <reference path='../../lib/illa/Ticker.ts'/>
+/// <reference path='../../lib/jQuery.d.ts'/>
+/// <reference path='../../src/berek/DimensionsUtil.ts'/>
+/// <reference path='../../src/berek/PointerUtil.ts'/>
+/// <reference path='../../src/berek/ScrollbarUtil.ts'/>
+/// <reference path='../../src/berek/StorageWrapper.ts'/>
+/// <reference path='../../src/berek/UnitTest.ts'/>
+/// <reference path='../../src/berek/Widget.ts'/>
 var test1;
 (function (test1) {
     var Main = (function () {
@@ -1133,19 +1253,16 @@ var test1;
         Main.prototype.onDOMLoaded = function () {
             var u = this.unitTest = new berek.UnitTest(jQuery('body'));
             u.info('Testing...');
-
             var scrollbarUtil = new berek.ScrollbarUtil();
             u.assert(illa.isNumber(scrollbarUtil.getDefaultSize(0 /* X */)), 'ScrollbarUtil.getDefaultSize 1');
             u.assert(illa.isNumber(scrollbarUtil.getDefaultSize(1 /* Y */)), 'ScrollbarUtil.getDefaultSize 2');
             u.assert(scrollbarUtil.getDefaultSize(0 /* X */) >= 0, 'ScrollbarUtil.getDefaultSize 3');
             u.assert(scrollbarUtil.getDefaultSize(1 /* Y */) >= 0, 'ScrollbarUtil.getDefaultSize 4');
-
             var scrolling = jQuery('<div style="overflow-x: scroll; overflow-y: scroll">');
             var scrolling2 = jQuery('<div style="overflow: scroll">');
             var nonScrolling = jQuery('<div style="overflow-x: hidden; overflow-y: hidden">');
             var nonScrolling2 = jQuery('<div style="overflow-x: visible; overflow-y: visible">');
             var nonScrolling3 = jQuery('<div style="overflow: visible">');
-
             u.assert(berek.ScrollbarUtil.isVisibleOn(scrolling, 0 /* X */), 'ScrollbarUtil.isVisibleOn 1');
             u.assert(berek.ScrollbarUtil.isVisibleOn(scrolling, 1 /* Y */), 'ScrollbarUtil.isVisibleOn 2');
             u.assert(berek.ScrollbarUtil.isVisibleOn(nonScrolling, 0 /* X */) === false, 'ScrollbarUtil.isVisibleOn 3');
@@ -1156,12 +1273,10 @@ var test1;
             u.assert(berek.ScrollbarUtil.isVisibleOn(scrolling2, 1 /* Y */), 'ScrollbarUtil.isVisibleOn 8');
             u.assert(berek.ScrollbarUtil.isVisibleOn(nonScrolling3, 0 /* X */) === false, 'ScrollbarUtil.isVisibleOn 9');
             u.assert(berek.ScrollbarUtil.isVisibleOn(nonScrolling3, 1 /* Y */) === false, 'ScrollbarUtil.isVisibleOn 10');
-
             u.printStats();
         };
         return Main;
     })();
     test1.Main = Main;
 })(test1 || (test1 = {}));
-
 var test1Main = new test1.Main();
