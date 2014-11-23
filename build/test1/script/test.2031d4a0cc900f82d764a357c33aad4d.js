@@ -106,23 +106,7 @@ var illa;
         return v instanceof c ? v : null;
     }
     illa.as = as;
-    /**
-     * Binds a function to a ‘this’ context.
-     * No argument binding allows us to keep function type safety.
-     */
     function bind(fn, obj) {
-        if (!fn)
-            throw 'No function.';
-        return function () {
-            return fn.apply(obj, arguments);
-        };
-    }
-    illa.bind = bind;
-    /**
-     * Binds a function to a ‘this’ context, and also prepends the specified arguments
-     * This is not type safe because of argument binding.
-     */
-    function partial(fn, obj) {
         var args = [];
         for (var _i = 2; _i < arguments.length; _i++) {
             args[_i - 2] = arguments[_i];
@@ -133,9 +117,21 @@ var illa;
             return fn.apply(obj, args.concat(Array.prototype.slice.call(arguments)));
         };
     }
-    illa.partial = partial;
+    illa.bind = bind;
+    /**
+     * Binds a function to a ‘this’ context, and also prepends the specified arguments.
+     * This is not type safe.
+     */
+    function bindUnsafe(fn, obj) {
+        var args = [];
+        for (var _i = 2; _i < arguments.length; _i++) {
+            args[_i - 2] = arguments[_i];
+        }
+        return illa.bind.call(this, arguments);
+    }
+    illa.bindUnsafe = bindUnsafe;
     if (Function.prototype.bind) {
-        illa.bind = illa.partial = function (fn, obj) {
+        illa.bind = illa.bindUnsafe = function (fn) {
             return fn.call.apply(fn.bind, arguments);
         };
     }
