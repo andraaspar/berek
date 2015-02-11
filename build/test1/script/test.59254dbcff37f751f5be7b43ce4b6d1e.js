@@ -1212,6 +1212,15 @@ var berek;
             this.isDestroyed = true;
             this.removeAllEventCallbacks();
         };
+        Widget.prototype.initParts = function (ancestor) {
+            if (ancestor === void 0) { ancestor = this.jQuery; }
+            var partsJq = ancestor.find('[data-' + Widget.PART_KEY + ']');
+            for (var i = 0; i < partsJq.length; i++) {
+                var partJq = partsJq.eq(i);
+                var partName = partJq.data(Widget.PART_KEY) + '';
+                this[partName] = partJq;
+            }
+        };
         Widget.getFrom = function (source) {
             var result = null;
             if (source) {
@@ -1224,6 +1233,7 @@ var berek;
         };
         Widget.JQUERY_DATA_KEY = 'berek_Widget';
         Widget.EVENT_DESTROYED = 'berek_Widget_EVENT_DESTROYED';
+        Widget.PART_KEY = 'berek-Widget-part';
         return Widget;
     })(illa.EventHandler);
     berek.Widget = Widget;

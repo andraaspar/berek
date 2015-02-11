@@ -7,6 +7,7 @@ module berek {
 		
 		static JQUERY_DATA_KEY = 'berek_Widget';
 		static EVENT_DESTROYED = 'berek_Widget_EVENT_DESTROYED';
+		static PART_KEY = 'berek-Widget-part';
 		
 		private jQuery: jQuery.IInstance;
 		private isDestroyed = false;
@@ -38,9 +39,18 @@ module berek {
 			return this.isDestroyed;
 		}
 		
-		onDestroyed(e: jQuery.IEvent): void {
+		protected onDestroyed(e: jQuery.IEvent): void {
 			this.isDestroyed = true;
 			this.removeAllEventCallbacks();
+		}
+		
+		protected initParts(ancestor = this.jQuery): void {
+			var partsJq = ancestor.find('[data-' + Widget.PART_KEY + ']');
+			for (var i = 0; i < partsJq.length; i++) {
+				var partJq = partsJq.eq(i);
+				var partName = partJq.data(Widget.PART_KEY) + '';
+				this[partName] = partJq;
+			}
 		}
 
 		static getFrom(source: jQuery.IInstance): Widget {
