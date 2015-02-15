@@ -816,6 +816,88 @@ var berek;
     })();
     berek.DimensionsUtil = DimensionsUtil;
 })(berek || (berek = {}));
+/// <reference path='../../lib/illa/Event.ts'/>
+var berek;
+(function (berek) {
+    var SettingsEvent = (function (_super) {
+        __extends(SettingsEvent, _super);
+        function SettingsEvent(type, target, key) {
+            _super.call(this, type, target);
+            this.key = key;
+        }
+        SettingsEvent.prototype.getKey = function () {
+            return this.key;
+        };
+        return SettingsEvent;
+    })(illa.Event);
+    berek.SettingsEvent = SettingsEvent;
+})(berek || (berek = {}));
+/// <reference path='../../lib/illa/EventHandler.ts'/>
+/// <reference path='SettingsEvent.ts'/>
+var berek;
+(function (berek) {
+    var Settings = (function (_super) {
+        __extends(Settings, _super);
+        function Settings() {
+            _super.apply(this, arguments);
+            this.settings = {};
+        }
+        Settings.getInstance = function () {
+            return this.instance;
+        };
+        Settings.read = function (key) {
+            var result = this.instance.settings[key] || [];
+            this.instance.settings[key] = [];
+            return result;
+        };
+        Settings.write = function (key, value) {
+            if (this.instance.settings[key]) {
+                this.instance.settings[key].push(value);
+            }
+            else {
+                this.instance.settings[key] = [value];
+            }
+            new berek.SettingsEvent(this.EVENT_WRITTEN, this.instance, key).dispatch();
+        };
+        Settings.EVENT_WRITTEN = 'berek.Settings.EVENT_WRITTEN';
+        Settings.instance = new Settings();
+        return Settings;
+    })(illa.EventHandler);
+    berek.Settings = Settings;
+})(berek || (berek = {}));
+/// <reference path='Settings.ts'/>
+var berek;
+(function (berek) {
+    var Filter = (function () {
+        function Filter() {
+            berek.Settings.getInstance().addEventCallback(berek.Settings.EVENT_WRITTEN, this.onSettingWritten, this);
+            this.apply();
+        }
+        Filter.prototype.getSettingsKey = function () {
+            throw 'Unimplemented.';
+        };
+        Filter.prototype.useSetting = function (setting) {
+            throw 'Unimplemented.';
+        };
+        Filter.prototype.apply = function () {
+            var settings = berek.Settings.read(this.getSettingsKey());
+            for (var i = 0, n = settings.length; i < n; i++) {
+                if (!illa.isUndefinedOrNull(settings[i])) {
+                    this.useSetting(settings[i]);
+                }
+            }
+        };
+        Filter.prototype.onSettingWritten = function (e) {
+            if (e.getKey() == this.getSettingsKey())
+                this.apply();
+        };
+        Filter.prototype.getJQueryById = function (id) {
+            return jQuery(document.getElementById(id + ''));
+        };
+        return Filter;
+    })();
+    berek.Filter = Filter;
+})(berek || (berek = {}));
 var berek;
 (function (berek) {
     (function (PointerCoordsContext) {
@@ -1245,6 +1327,7 @@ var berek;
 /// <reference path='../../lib/illa/Ticker.ts'/>
 /// <reference path='../../lib/jQuery.d.ts'/>
 /// <reference path='../../src/berek/DimensionsUtil.ts'/>
+/// <reference path='../../src/berek/Filter.ts'/>
 /// <reference path='../../src/berek/PointerUtil.ts'/>
 /// <reference path='../../src/berek/ScrollbarUtil.ts'/>
 /// <reference path='../../src/berek/StorageWrapper.ts'/>

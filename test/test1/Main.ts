@@ -7,6 +7,7 @@
 /// <reference path='../../lib/jQuery.d.ts'/>
 
 /// <reference path='../../src/berek/DimensionsUtil.ts'/>
+/// <reference path='../../src/berek/Filter.ts'/>
 /// <reference path='../../src/berek/PointerUtil.ts'/>
 /// <reference path='../../src/berek/ScrollbarUtil.ts'/>
 /// <reference path='../../src/berek/StorageWrapper.ts'/>
