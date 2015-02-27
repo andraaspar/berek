@@ -7,7 +7,7 @@ module berek {
 		
 		static JQUERY_DATA_KEY = 'berek_Widget';
 		static EVENT_DESTROYED = 'berek_Widget_EVENT_DESTROYED';
-		static PART_KEY = 'berek-Widget-part';
+		static PART_KEY = 'berek-widget-part';
 		
 		private jQuery: jQuery.IInstance;
 		private isDestroyed = false;

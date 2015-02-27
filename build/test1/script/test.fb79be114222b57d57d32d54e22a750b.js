@@ -1315,7 +1315,7 @@ var berek;
         };
         Widget.JQUERY_DATA_KEY = 'berek_Widget';
         Widget.EVENT_DESTROYED = 'berek_Widget_EVENT_DESTROYED';
-        Widget.PART_KEY = 'berek-Widget-part';
+        Widget.PART_KEY = 'berek-widget-part';
         return Widget;
     })(illa.EventHandler);
     berek.Widget = Widget;
