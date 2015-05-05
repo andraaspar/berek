@@ -22,9 +22,13 @@ module berek {
 			return result;
 		}
 		
+		static encodeKey(key: string): string {
+			return encodeURIComponent(key).replace(/[()]/g, function(s: string): string { return s.charCodeAt(0).toString(16); });
+		}
+		
 		static getItem(key: string): string {
 			var result = '';
-			var keyEncoded = encodeURIComponent(key);
+			var keyEncoded = this.encodeKey(key);
 			var keyEncodedEscaped = illa.StringUtil.escapeRegExp(keyEncoded);
 			var keyRe = new RegExp('^\\s*' + keyEncodedEscaped + '\\s*=');
 			var cookies = this.getCookies();
@@ -39,7 +43,7 @@ module berek {
 		}
 		
 		static setItem(key: string, value: string, validForDays?: number, path = '', domain = '', isSecure = false): void {
-			var cookie = encodeURIComponent(key) + '=' + encodeURIComponent(value);
+			var cookie = this.encodeKey(key) + '=' + encodeURIComponent(value);
 			if (validForDays) {
 				var expires = new Date();
 				expires.setTime(expires.getTime() + validForDays * 1000 * 60 * 60 * 24);

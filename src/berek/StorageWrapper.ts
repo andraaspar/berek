@@ -4,24 +4,26 @@ module berek {
 	export class StorageWrapper {
 	
 		private storage: Storage;
+		private static isSupported: boolean[] = [];
 	
 		constructor(private type: StorageType) {
 			this.storage = this.getNativeStorage(type);
 		}
 		
-		static isStorageSupported(type: StorageType): boolean {
-			var result = false;
-			var storageWrapper = new StorageWrapper(type);
-			try {
-				var itemName = 'berek_StorageUtil_test';
-				var value = '1';
-				storageWrapper.setItem(itemName, value);
-				result = storageWrapper.getItem(itemName) === value;
-				storageWrapper.removeItem(itemName);
-			} catch (e) {
-				result = false;
+		static getIsSupported(t: StorageType): boolean {
+			if (!illa.isBoolean(this.isSupported[t])) {
+				var storageWrapper = new StorageWrapper(t);
+				try {
+					var itemName = 'berek_StorageUtil_test';
+					var value = '1';
+					storageWrapper.setItem(itemName, value);
+					this.isSupported[t] = storageWrapper.getItem(itemName) === value;
+					storageWrapper.removeItem(itemName);
+				} catch (e) {
+					this.isSupported[t] = false;
+				}
 			}
-			return result;
+			return this.isSupported[t];
 		}
 		
 		getNativeStorage(type: StorageType): Storage {
@@ -39,10 +41,12 @@ module berek {
 			return result;
 		}
 		
-		getKey(i: number): string {
-			var result: string;
+		getKeys(): string[] {
+			var result: string[] = [];
 			if (this.storage) {
-				result = this.storage.key(i);
+				for (var i = 0, n = this.storage.length; i < n; i++) {
+					result.push(this.storage.key(i));
+				}
 			}
 			return result;
 		}

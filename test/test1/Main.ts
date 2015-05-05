@@ -43,39 +43,52 @@ module test1 {
 			var nonScrolling2 = jQuery('<div style="overflow-x: visible; overflow-y: visible">');
 			var nonScrolling3 = jQuery('<div style="overflow: visible">');
 
-			u.assert(berek.ScrollbarUtil.isVisibleOn(scrolling, illa.Axis2D.X), 'ScrollbarUtil.isVisibleOn 1');
-			u.assert(berek.ScrollbarUtil.isVisibleOn(scrolling, illa.Axis2D.Y), 'ScrollbarUtil.isVisibleOn 2');
-			u.assert(berek.ScrollbarUtil.isVisibleOn(nonScrolling, illa.Axis2D.X) === false, 'ScrollbarUtil.isVisibleOn 3');
-			u.assert(berek.ScrollbarUtil.isVisibleOn(nonScrolling, illa.Axis2D.Y) === false, 'ScrollbarUtil.isVisibleOn 4');
-			u.assert(berek.ScrollbarUtil.isVisibleOn(nonScrolling2, illa.Axis2D.X) === false, 'ScrollbarUtil.isVisibleOn 5');
-			u.assert(berek.ScrollbarUtil.isVisibleOn(nonScrolling2, illa.Axis2D.Y) === false, 'ScrollbarUtil.isVisibleOn 6');
-			u.assert(berek.ScrollbarUtil.isVisibleOn(scrolling2, illa.Axis2D.X), 'ScrollbarUtil.isVisibleOn 7');
-			u.assert(berek.ScrollbarUtil.isVisibleOn(scrolling2, illa.Axis2D.Y), 'ScrollbarUtil.isVisibleOn 8');
-			u.assert(berek.ScrollbarUtil.isVisibleOn(nonScrolling3, illa.Axis2D.X) === false, 'ScrollbarUtil.isVisibleOn 9');
-			u.assert(berek.ScrollbarUtil.isVisibleOn(nonScrolling3, illa.Axis2D.Y) === false, 'ScrollbarUtil.isVisibleOn 10');
+			u.assert(berek.ScrollbarUtil.getIsVisibleOn(scrolling, illa.Axis2D.X), 'ScrollbarUtil.getIsVisibleOn 1');
+			u.assert(berek.ScrollbarUtil.getIsVisibleOn(scrolling, illa.Axis2D.Y), 'ScrollbarUtil.getIsVisibleOn 2');
+			u.assert(berek.ScrollbarUtil.getIsVisibleOn(nonScrolling, illa.Axis2D.X) === false, 'ScrollbarUtil.getIsVisibleOn 3');
+			u.assert(berek.ScrollbarUtil.getIsVisibleOn(nonScrolling, illa.Axis2D.Y) === false, 'ScrollbarUtil.getIsVisibleOn 4');
+			u.assert(berek.ScrollbarUtil.getIsVisibleOn(nonScrolling2, illa.Axis2D.X) === false, 'ScrollbarUtil.getIsVisibleOn 5');
+			u.assert(berek.ScrollbarUtil.getIsVisibleOn(nonScrolling2, illa.Axis2D.Y) === false, 'ScrollbarUtil.getIsVisibleOn 6');
+			u.assert(berek.ScrollbarUtil.getIsVisibleOn(scrolling2, illa.Axis2D.X), 'ScrollbarUtil.getIsVisibleOn 7');
+			u.assert(berek.ScrollbarUtil.getIsVisibleOn(scrolling2, illa.Axis2D.Y), 'ScrollbarUtil.getIsVisibleOn 8');
+			u.assert(berek.ScrollbarUtil.getIsVisibleOn(nonScrolling3, illa.Axis2D.X) === false, 'ScrollbarUtil.getIsVisibleOn 9');
+			u.assert(berek.ScrollbarUtil.getIsVisibleOn(nonScrolling3, illa.Axis2D.Y) === false, 'ScrollbarUtil.getIsVisibleOn 10');
 			
 			(function() {
 				var cookieKey = 'Árvíztűrő tükörfúrógép';
 				var cookieValue = 'Lépegető exkavátor!';
 				
+				var cookieKeys = berek.CookieUtil.getKeys();
+				if (cookieKeys.length > 0) {
+					u.warn('Please clear cookies before running this test.');
+				}
+				
 				u.assert(berek.CookieUtil.getAreCookiesAccepted(), 'CookieUtil.getAreCookiesAccepted 1');
 	
 				berek.CookieUtil.setItem(cookieKey, cookieValue);
-				
-				var cookieKeys = berek.CookieUtil.getKeys();
-				
-				u.assert(cookieKeys.length === 1, 'CookieUtil.getKeys 1');
-				u.assert(cookieKeys[0] === cookieKey, 'CookieUtil.getKeys 2');
-				
-				u.assert(berek.CookieUtil.getItem(cookieKey) === cookieValue, 'CookieUtil.getItem 1');
-				
-				berek.CookieUtil.removeItem(cookieKey);
-				
-				u.assert(berek.CookieUtil.getItem(cookieKey) === '', 'CookieUtil.getItem 2');
+				berek.CookieUtil.setItem(cookieValue, cookieKey);
 				
 				cookieKeys = berek.CookieUtil.getKeys();
 				
-				u.assert(cookieKeys.length === 0, 'CookieUtil.getKeys 3');
+				u.assert(cookieKeys.length === 2, 'CookieUtil.getKeys 1');
+				u.assert(cookieKeys[0] === cookieKey, 'CookieUtil.getKeys 2');
+				u.assert(cookieKeys[1] === cookieValue, 'CookieUtil.getKeys 3');
+				
+				u.assert(berek.CookieUtil.getItem(cookieKey) === cookieValue, 'CookieUtil.getItem 1');
+				u.assert(berek.CookieUtil.getItem(cookieValue) === cookieKey, 'CookieUtil.getItem 2');
+				
+				berek.CookieUtil.removeItem(cookieKey);
+				
+				u.assert(berek.CookieUtil.getItem(cookieKey) === '', 'CookieUtil.getItem 3');
+				u.assert(berek.CookieUtil.getItem(cookieValue) === cookieKey, 'CookieUtil.getItem 4');
+				
+				u.assert(berek.CookieUtil.getKeys().length === 1, 'CookieUtil.getKeys 4');
+				
+				berek.CookieUtil.removeItem(cookieValue);
+				
+				u.assert(berek.CookieUtil.getKeys().length === 0, 'CookieUtil.getKeys 5');
+				
+				u.assert(berek.CookieUtil.getItem(cookieValue) === '', 'CookieUtil.getItem 5');
 			})();
 
 

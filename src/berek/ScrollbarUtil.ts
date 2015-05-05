@@ -45,7 +45,7 @@ module berek {
 			this.defaultWidth = NaN;
 		}
 
-		static isVisibleOn(jq: jQuery.IInstance, axis: illa.Axis2D): boolean {
+		static getIsVisibleOn(jq: jQuery.IInstance, axis: illa.Axis2D): boolean {
 			var elem = jq[0];
 			if (!elem) return false;
 			var overflow = '';
