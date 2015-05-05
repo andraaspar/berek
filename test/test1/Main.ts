@@ -6,6 +6,7 @@
 
 /// <reference path='../../lib/jQuery.d.ts'/>
 
+/// <reference path='../../src/berek/CookieUtil.ts'/>
 /// <reference path='../../src/berek/DimensionsUtil.ts'/>
 /// <reference path='../../src/berek/Filter.ts'/>
 /// <reference path='../../src/berek/PointerUtil.ts'/>
@@ -52,6 +53,30 @@ module test1 {
 			u.assert(berek.ScrollbarUtil.isVisibleOn(scrolling2, illa.Axis2D.Y), 'ScrollbarUtil.isVisibleOn 8');
 			u.assert(berek.ScrollbarUtil.isVisibleOn(nonScrolling3, illa.Axis2D.X) === false, 'ScrollbarUtil.isVisibleOn 9');
 			u.assert(berek.ScrollbarUtil.isVisibleOn(nonScrolling3, illa.Axis2D.Y) === false, 'ScrollbarUtil.isVisibleOn 10');
+			
+			(function() {
+				var cookieKey = 'Árvíztűrő tükörfúrógép';
+				var cookieValue = 'Lépegető exkavátor!';
+				
+				u.assert(berek.CookieUtil.getAreCookiesAccepted(), 'CookieUtil.getAreCookiesAccepted 1');
+	
+				berek.CookieUtil.setItem(cookieKey, cookieValue);
+				
+				var cookieKeys = berek.CookieUtil.getKeys();
+				
+				u.assert(cookieKeys.length === 1, 'CookieUtil.getKeys 1');
+				u.assert(cookieKeys[0] === cookieKey, 'CookieUtil.getKeys 2');
+				
+				u.assert(berek.CookieUtil.getItem(cookieKey) === cookieValue, 'CookieUtil.getItem 1');
+				
+				berek.CookieUtil.removeItem(cookieKey);
+				
+				u.assert(berek.CookieUtil.getItem(cookieKey) === '', 'CookieUtil.getItem 2');
+				
+				cookieKeys = berek.CookieUtil.getKeys();
+				
+				u.assert(cookieKeys.length === 0, 'CookieUtil.getKeys 3');
+			})();
 
 
 
