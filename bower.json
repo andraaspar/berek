@@ -1,6 +1,6 @@
 {
   "name": "berek",
-  "version": "1.7.0",
+  "version": "1.8.0",
   "homepage": "https://github.com/andraaspar/berek",
   "authors": [
     "András Parditka"
@@ -23,7 +23,7 @@
     "package.json"
   ],
   "dependencies": {
-    "illa": "andraaspar/illa#v2.2",
+    "illa": "andraaspar/illa#v2.3",
     "jquery-d-ts": "andraaspar/jquery-d-ts#v1"
   }
 }
