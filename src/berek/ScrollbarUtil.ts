@@ -4,18 +4,24 @@
 
 module berek {
 	export class ScrollbarUtil {
-		static CSS_CLASS = 'berek-ScrollbarUtil-box';
 		private box: jQuery.IInstance;
 		private defaultWidth = NaN;
 		private defaultHeight = NaN;
 		
-		constructor(box?: jQuery.IInstance) {
+		constructor(box?: jQuery.IInstance, size = 1000) {
 			if (box) {
 				this.box = box;
 			} else {
 				this.box = jQuery('<div>');
 			}
-			this.box.addClass(ScrollbarUtil.CSS_CLASS);
+			this.box.css({
+				position: 'absolute',
+				top: -size - 1 + 'px',
+				left: '0',
+				width: size + 'px',
+				height: size + 'px',
+				overflow: 'scroll'
+			});
 			this.box.prependTo('body');
 		}
 
