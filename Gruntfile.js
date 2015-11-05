@@ -44,15 +44,13 @@ module.exports = function(grunt) {
 					files: {}
 				}
 			},
-			typescript: {
-				tests: {
-					files: {}
-				}
-			},
 			sas: {
 				update: {}
 			},
 			shell: {
+				tests: {
+					command: ''
+				},
 				update: {
 					command: ['bower prune', 'bower update', 'bower install'].join('&&')
 				}
@@ -66,7 +64,8 @@ module.exports = function(grunt) {
 			
 			config.less.tests.files[cssPath] = 'test/test' + i + '/_style.less';
 			
-			config.typescript.tests.files[jsPath] = 'test/test' + i + '/Main.ts';
+			if (config.shell.tests.command) config.shell.tests.command += '&&';
+			config.shell.tests.command += '"node_modules/.bin/tsc" --out "' + jsPath + '" "test/test' + i + '/Main.ts"';
 		}
 		
 		return config;
@@ -77,9 +76,8 @@ module.exports = function(grunt) {
 	grunt.loadNpmTasks('grunt-kapocs');
 	grunt.loadNpmTasks('grunt-shell');
 	grunt.loadNpmTasks('grunt-sas');
-	grunt.loadNpmTasks('grunt-typescript');
 	
 	grunt.registerTask('update', ['shell:update', 'sas:update']);
-	grunt.registerTask('compile', ['clean:tests', 'typescript:tests', 'less:tests', 'kapocs:tests']);
+	grunt.registerTask('compile', ['clean:tests', 'shell:tests', 'less:tests', 'kapocs:tests']);
 	grunt.registerTask('default', ['compile']);
 };
