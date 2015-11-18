@@ -26,7 +26,9 @@ module berek {
 		}
 		
 		getJQueryById(id: string): jQuery.IInstance {
-			return jQuery(document.getElementById(id + ''));
+			var result = document.getElementById(id + '');
+			if (result) return jQuery(result);
+			else return null;
 		}
 	}
 }
