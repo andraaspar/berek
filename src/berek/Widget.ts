@@ -17,6 +17,7 @@ module berek {
 			
 			this.jQuery = jq;
 			
+			if (this.jQuery.data(Widget.JQUERY_DATA_KEY)) throw 'Widget binding conflict.';
 			this.jQuery.data(Widget.JQUERY_DATA_KEY, this);
 			if (!(Widget.EVENT_DESTROYED in jQuery.event.special)) {
 				jQuery.event.special[Widget.EVENT_DESTROYED] = {
