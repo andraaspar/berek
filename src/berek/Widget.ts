@@ -13,9 +13,7 @@ module berek {
 		private jQuery: jQuery.IInstance;
 		private isDestroyed = false;
 		
-		constructor(jq: jQuery.IInstance) {
-			super();
-			
+		initWidget(jq: jQuery.IInstance): void {
 			this.jQuery = jq;
 			
 			if (this.jQuery.data(Widget.JQUERY_DATA_KEY)) throw 'Widget binding conflict.';

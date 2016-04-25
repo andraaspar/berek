@@ -1,16 +1,16 @@
 /// <reference path='Settings.ts'/>
 
 module berek {
-	export class Filter {
+	export abstract class Filter {
 		
 		constructor() {
 			Settings.getInstance().addEventCallback(Settings.EVENT_WRITTEN, this.onSettingWritten, this);
 			this.apply();
 		}
 		
-		protected getSettingsKey(): string { throw 'Unimplemented.' }
+		protected abstract getSettingsKey(): string;
 		
-		protected useSetting(setting: any): void { throw 'Unimplemented.' }
+		protected abstract useSetting(setting: any): void;
 		
 		apply(): void {
 			var settings = Settings.read(this.getSettingsKey());
