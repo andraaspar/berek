@@ -1,0 +1,15 @@
+{
+	"compilerOptions": {
+		"baseUrl": ".",
+		"paths": {
+			"*": [
+				"bower_components/*",
+				"*"
+			]
+		}
+	},
+	"exclude": [
+		"bower_components",
+		"node_modules"
+	]
+}

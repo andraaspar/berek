@@ -1,29 +1,17 @@
 {
   "name": "berek",
-  "version": "1.13.0",
+  "description": "Utilities for the browser in TypeScript.",
+  "version": "2.0.0",
   "homepage": "https://github.com/andraaspar/berek",
   "authors": [
     "András Parditka"
   ],
-  "description": "TypeScript utilities for the browser.",
-  "keywords": [
-    "TypeScript",
-    "utilities",
-    "browser"
-  ],
   "license": "MIT",
   "ignore": [
-    "**/.*",
-    "build",
-    "lib",
-    "node_modules",
-    "bower_components",
-    "test",
-    "Gruntfile.js",
-    "package.json"
+    "**/.*"
   ],
   "dependencies": {
-    "illa": "andraaspar/illa#v2.5",
-    "jquery-d-ts": "andraaspar/jquery-d-ts#v1.1"
+    "illa": "andraaspar/illa#^4.0.0",
+    "jquery-ts": "andraaspar/jquery-ts#^2.0.0"
   }
 }

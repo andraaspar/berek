@@ -1,7 +1,4 @@
-/.project
-/.settings
+/.vscode
 /bower_components
-/node_modules
-/lib
-/tmp
 /build
+/node_modules
