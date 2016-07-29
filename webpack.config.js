@@ -34,6 +34,10 @@ module.exports = {
 		// new webpack.optimize.UglifyJsPlugin({
 		// 	compress: {
 		// 		warnings: false
+		// 	},
+		// 	beautify: true,
+		// 	output: {
+		// 		indent_level: 0
 		// 	}
 		// }),
 	],
