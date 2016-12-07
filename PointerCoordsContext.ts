@@ -1,5 +1,5 @@
 export enum PointerCoordsContext {
-	CLIENT, PAGE, SCREEN
+	CLIENT,
+	PAGE,
+	SCREEN,
 }
-
-export default PointerCoordsContext;

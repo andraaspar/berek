@@ -1,5 +1,5 @@
 export enum PointerEventSource {
-	OTHER, MOUSE, TOUCH
+	OTHER,
+	MOUSE,
+	TOUCH,
 }
-
-export default PointerEventSource;
