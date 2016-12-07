@@ -1,13 +1,11 @@
-import Event from 'illa/Event';
-import IEventHandler from 'illa/IEventHandler';
+import { IEventHandler } from 'illa/IEventHandler'
+import { IllaEvent } from 'illa/IllaEvent'
 
-export class SettingsEvent extends Event {
+export class SettingsEvent extends IllaEvent {
 	
 	constructor(type: string, target: IEventHandler, private key: string) {
-		super(type, target);
+		super(type, target)
 	}
 	
 	getKey() { return this.key }
 }
-
-export default SettingsEvent;

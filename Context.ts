@@ -1,7 +1,5 @@
-
-
 export enum Context {
-	INNER, PARENT, PAGE
+	INNER,
+	PARENT,
+	PAGE,
 }
-
-export default Context;

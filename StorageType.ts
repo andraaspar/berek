@@ -1,5 +1,4 @@
 export enum StorageType {
-	LOCAL, SESSION
+	LOCAL,
+	SESSION,
 }
-
-export default StorageType;
