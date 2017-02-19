@@ -44,7 +44,7 @@ export class Widget extends EventHandler {
 	}
 
 	protected initParts(ancestor = this.jQuery): void {
-		var partsJq = ancestor.find('[' + PART_ATTR + ']')
+		var partsJq = ancestor.find('[' + PART_ATTR + ']').addBack('[' + PART_ATTR + ']')
 		for (var i = 0; i < partsJq.length; i++) {
 			var partJq = partsJq.eq(i)
 			var partName = partJq.data(PART_KEY) + ''

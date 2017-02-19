@@ -9,8 +9,8 @@ module.exports = {
 		vendor: ['jquery-ts']
 	},
 	resolve: {
-		extensions: ['', '.js', '.jsx', '.ts', '.tsx'],
-		modulesDirectories: [
+		extensions: ['.ts', '.js'],
+		modules: [
 			'bower_components',
 			'node_modules',
 		],
