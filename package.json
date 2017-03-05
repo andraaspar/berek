@@ -1,5 +1,11 @@
 {
-  "private": true,
+  "name": "berek",
+  "version": "1.0.0",
+  "description": "Utilities for the browser in TypeScript.",
+  "dependencies": {
+    "illa": "^5.0.2",
+    "jquery-ts": "^2.1.1"
+  },
   "devDependencies": {
     "awesome-typescript-loader": "^3.0.4",
     "clean-webpack-plugin": "^0.1.15",
@@ -12,5 +18,16 @@
     "build": "webpack",
     "build-list-modules": "webpack --display-chunks --display-modules",
     "build-list-reasons": "webpack --display-chunks --display-modules --display-reasons"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/andraaspar/berek.git"
+  },
+  "keywords": [],
+  "author": "András Parditka",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/andraaspar/berek/issues"
+  },
+  "homepage": "https://github.com/andraaspar/berek#readme"
 }
