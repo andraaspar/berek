@@ -1,6 +1,6 @@
 {
   "name": "berek",
-  "version": "1.0.0",
+  "version": "3.0.2",
   "description": "Utilities for the browser in TypeScript.",
   "dependencies": {
     "illa": "^5.0.2",
