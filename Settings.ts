@@ -1,28 +1,47 @@
 import { EventHandler } from 'illa/EventHandler'
+import { Filter } from './Filter'
 import { SettingsEvent } from './SettingsEvent'
+import { error } from 'illa/Log'
 
 export const EVENT_WRITTEN = 'berek.Settings.EVENT_WRITTEN'
 
-export class Settings extends EventHandler {
+export class Settings {
 	
-	private static instance = new Settings()
-	
-	private settings: {[s: string]: any[]} = {}
-	
-	static getInstance() { return this.instance }
+	private static eventBus: EventHandler = new EventHandler()
+	private static settings: {[s: string]: any[]} = {}
+	private static filters: Filter[] = []
 	
 	static read(key: string): any[] {
-		var result = this.instance.settings[key] || []
-		this.instance.settings[key] = []
+		var result = this.settings[key] || []
+		this.settings[key] = []
 		return result
 	}
 	
-	static write(key: string, value: any): void {
-		if (this.instance.settings[key]) {
-			this.instance.settings[key].push(value)
+	static write(key: string, value: any) {
+		if (this.settings[key]) {
+			this.settings[key].push(value)
 		} else {
-			this.instance.settings[key] = [value]
+			this.settings[key] = [value]
 		}
-		new SettingsEvent(EVENT_WRITTEN, this.instance, key).dispatch()
+		return new SettingsEvent(EVENT_WRITTEN, this.eventBus, key).dispatch()
+	}
+	
+	static async applyFilters() {
+		for (let filter of this.filters) {
+			try {
+				await filter.apply()
+			} catch (e) {
+				error(e)
+			}
+		}
+	}
+	
+	static getEventBus(): EventHandler {
+		return this.eventBus
+	}
+	
+	static addFilters(...filters: Filter[]) {
+		this.filters = this.filters.concat(filters)
+		return this.applyFilters()
 	}
 }

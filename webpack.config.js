@@ -1,7 +1,9 @@
-var webpack = require("webpack");
+const path = require('path')
 
-var CleanWebpackPlugin = require('clean-webpack-plugin');
-var HtmlWebpackPlugin = require('html-webpack-plugin');
+const webpack = require("webpack")
+
+const CleanWebpackPlugin = require('clean-webpack-plugin')
+const HtmlWebpackPlugin = require('html-webpack-plugin')
 
 module.exports = {
 	entry: {
@@ -44,7 +46,7 @@ module.exports = {
 	externals: {
 	},
 	output: {
-		path: './build',
+		path: path.resolve(__dirname, './build'),
 		filename: '[name].js'
 	}
-};
+}
