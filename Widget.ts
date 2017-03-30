@@ -47,8 +47,9 @@ export class Widget extends EventHandler {
 		var partsJq = ancestor.find('[' + PART_ATTR + ']').addBack('[' + PART_ATTR + ']')
 		for (var i = 0; i < partsJq.length; i++) {
 			var partJq = partsJq.eq(i)
-			var partName = partJq.data(PART_KEY) + ''
+			var partName = partJq.attr(PART_ATTR)
 			; (<any>this)[partName] = partJq
+			partJq.removeAttr(PART_ATTR)
 		}
 	}
 
