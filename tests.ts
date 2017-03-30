@@ -15,10 +15,10 @@ import { info } from 'illa/Log'
 import jQuery from 'jquery-ts'
 
 class TestFilter extends Filter {
-	protected getSettingsKey(): string {
+	getSettingsKey(): string {
 		return 'test'
 	}
-	protected useSetting(setting: any): Promise<any> {
+	useSetting(setting: any): Promise<any> {
 		info(`Test filter got settings:`, setting)
 		return Promise.resolve()
 	}
