@@ -1030,9 +1030,9 @@ ieee754@^1.1.4:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.1.8.tgz#be33d40ac10ef1926701f6f08a2d86fbfd1ad3e4"
 
-illa@^8.0.0:
-  version "8.0.0"
-  resolved "https://registry.yarnpkg.com/illa/-/illa-8.0.0.tgz#8016309e326624d2f6dc89dc3ff5a17a0edcce55"
+illa@^8.1.0:
+  version "8.1.0"
+  resolved "https://registry.yarnpkg.com/illa/-/illa-8.1.0.tgz#11f6e3b3ea9719beb4533d071d6c185f0f409f6b"
 
 imports-loader@^0.7.1:
   version "0.7.1"
