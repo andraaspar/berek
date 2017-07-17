@@ -11,7 +11,6 @@ import { StorageType } from './StorageType'
 import { StorageWrapper } from './StorageWrapper'
 import { Widget } from './Widget'
 import { arrkup } from 'illa/Arrkup'
-import { info } from 'illa/Log'
 import jQuery from 'jquery-ts'
 
 class TestFilter extends Filter {
@@ -19,7 +18,7 @@ class TestFilter extends Filter {
 		return 'test'
 	}
 	useSetting(setting: any): Promise<any> {
-		info(`Test filter got settings:`, setting)
+		console.info(`Test filter got settings:`, setting)
 		return Promise.resolve()
 	}
 }
@@ -36,18 +35,18 @@ class TestWidget extends Widget {
 
 jQuery(() => {
 
-	info(`Cookies are accepted:`, CookieUtil.getAreCookiesAccepted())
-	info(`Body inner width:`, DimensionsUtil.getSize(jQuery('body'), Axis2D.X, Context.INNER))
-	info(`Scrollbar width:`, new ScrollbarUtil().getDefaultSize(Axis2D.X))
-	info(`Local storage supported:`, StorageWrapper.getIsSupported(StorageType.LOCAL))
-	info(`Session storage supported:`, StorageWrapper.getIsSupported(StorageType.SESSION))
+	console.info(`Cookies are accepted:`, CookieUtil.getAreCookiesAccepted())
+	console.info(`Body inner width:`, DimensionsUtil.getSize(jQuery('body'), Axis2D.X, Context.INNER))
+	console.info(`Scrollbar width:`, new ScrollbarUtil().getDefaultSize(Axis2D.X))
+	console.info(`Local storage supported:`, StorageWrapper.getIsSupported(StorageType.LOCAL))
+	console.info(`Session storage supported:`, StorageWrapper.getIsSupported(StorageType.SESSION))
 	
 	Settings.write('test', { testFilterSettings: true })
-	Settings.addFilters(new TestFilter()).then(() => info(`All filters applied!`))
+	Settings.addFilters(new TestFilter()).then(() => console.info(`All filters applied!`))
 	
 	jQuery(document).on('pointerdown', (e: jQuery.IEvent) => {
 		let coords = PointerUtil.getCoords(e)
-		info(`Pointer down at ${coords.x}, ${coords.y}`)
+		console.info(`Pointer down at ${coords.x}, ${coords.y}`)
 	})
 	
 	let w = new TestWidget().initTestWidget(jQuery('body'))

@@ -1,5 +1,4 @@
 import { Filter } from './Filter'
-import { error } from 'illa/Log'
 import { isUndefinedOrNull } from 'illa/Type'
 
 export class Settings {
@@ -33,13 +32,13 @@ export class Settings {
 							let promise = filter.useSetting(settings[i])
 							if (promise) results.push(promise)
 						} catch (e) {
-							error(e)
+							console.error(e)
 						}
 					}
 				}
 				await Promise.all(results)
 			} catch (e) {
-				error(e)
+				console.error(e)
 			}
 		}
 	}
