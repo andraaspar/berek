@@ -1,4 +1,3 @@
-import { error } from 'illa/Log'
 import { isUndefinedOrNull } from 'illa/Type'
 import jQuery from 'jquery-ts'
 

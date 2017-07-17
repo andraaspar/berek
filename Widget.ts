@@ -21,7 +21,7 @@ export class Widget extends EventHandler {
 			jQuery.event.special[EVENT_DESTROYED] = {
 				remove: function(o) {
 					if (o.handler) {
-						o.handler(null)
+						o.handler(<any>null)
 					}
 				}
 			}
@@ -53,8 +53,8 @@ export class Widget extends EventHandler {
 		}
 	}
 
-	static getFrom(source: jQuery.IInstance): Widget {
-		var result: Widget = null
+	static getFrom(source: jQuery.IInstance): Widget | null {
+		var result: Widget | null = null
 		if (source) {
 			var stored = source.data(JQUERY_DATA_KEY)
 			if (stored instanceof Widget) {

@@ -3,7 +3,7 @@ import { isBoolean } from 'illa/Type'
 
 export class StorageWrapper {
 
-	private storage: Storage
+	private storage: Storage | null
 	private static isSupported: boolean[] = []
 
 	constructor(private type: StorageType) {
@@ -26,8 +26,8 @@ export class StorageWrapper {
 		return this.isSupported[t]
 	}
 	
-	getNativeStorage(type: StorageType): Storage {
-		var result: Storage
+	getNativeStorage(type: StorageType): Storage | null {
+		var result: Storage | null = null
 		try {
 			switch (type) {
 				case StorageType.LOCAL:
@@ -45,14 +45,15 @@ export class StorageWrapper {
 		var result: string[] = []
 		if (this.storage) {
 			for (var i = 0, n = this.storage.length; i < n; i++) {
-				result.push(this.storage.key(i))
+				let value = this.storage.key(i)
+				if (value) result.push(value)
 			}
 		}
 		return result
 	}
 	
-	getItem(k: string): string {
-		var result: string
+	getItem(k: string): string | null {
+		var result: string | null = null
 		if (this.storage) {
 			result = this.storage.getItem(k)
 		}

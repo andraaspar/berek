@@ -72,6 +72,8 @@ export function getOffset(jq: jQuery.IInstance, axis: Axis2D, alignment = Alignm
 		case Context.PAGE:
 			offset = jq.offset()
 			break
+		default:
+			throw `[ot8op8]`
 	}
 	switch (axis) {
 		case Axis2D.X:

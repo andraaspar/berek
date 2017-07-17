@@ -7,15 +7,11 @@
 			"dom"
 		],
 		"baseUrl": ".",
-		"paths": {
-			"*": [
-				"bower_components/*",
-				"*"
-			]
-		},
 		"noImplicitAny": true,
 		"noImplicitReturns": true,
-		"noImplicitThis": true
+		"noImplicitThis": true,
+		"forceConsistentCasingInFileNames": true,
+		"strictNullChecks": true
 	},
 	"exclude": [
 		"bower_components",
