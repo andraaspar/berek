@@ -38,7 +38,7 @@ export class Widget extends EventHandler {
 		return this.isDestroyed
 	}
 
-	protected onDestroyed(e: jQuery.IEvent | undefined | null): void {
+	protected onDestroyed(e?: jQuery.IEvent | null): void {
 		this.isDestroyed = true
 		this.removeAllEventCallbacks()
 	}
