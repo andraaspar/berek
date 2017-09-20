@@ -1,9 +1,9 @@
 {
   "name": "berek",
-  "version": "8.0.0",
+  "version": "9.0.0",
   "description": "Utilities for the browser in TypeScript.",
   "dependencies": {
-    "illa": "^10.0.0",
+    "illa": "^11.0.0",
     "jquery-ts": "^2.1.1"
   },
   "devDependencies": {
@@ -15,7 +15,7 @@
     "webpack": "^3.6.0"
   },
   "scripts": {
-    "compile": "webpack --display-chunks --display-modules"
+    "compile": "yarn && webpack --display-chunks --display-modules"
   },
   "repository": {
     "type": "git",
