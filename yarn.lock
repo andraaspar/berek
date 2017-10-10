@@ -979,9 +979,9 @@ fstream@^1.0.0, fstream@^1.0.10, fstream@^1.0.2:
     mkdirp ">=0.5 0"
     rimraf "2"
 
-fun-q@^0.1.0:
-  version "0.1.0"
-  resolved "https://registry.yarnpkg.com/fun-q/-/fun-q-0.1.0.tgz#13adb22031b30fd128aa4bcd6813ef30504e4b2d"
+fun-q@^0.2.0:
+  version "0.2.0"
+  resolved "https://registry.yarnpkg.com/fun-q/-/fun-q-0.2.0.tgz#566a6163435274c820f57b6f2440943b09258fc9"
 
 gauge@~2.7.3:
   version "2.7.4"
@@ -1168,11 +1168,11 @@ ieee754@^1.1.4:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.1.8.tgz#be33d40ac10ef1926701f6f08a2d86fbfd1ad3e4"
 
-illa@^11.0.0:
-  version "11.0.0"
-  resolved "https://registry.yarnpkg.com/illa/-/illa-11.0.0.tgz#9af5bdca2a12d878dd87d036087ca9d6231a9d1b"
+illa@^12.0.0:
+  version "12.0.0"
+  resolved "https://registry.yarnpkg.com/illa/-/illa-12.0.0.tgz#36e913efcf573b4f05d66c841ae4fa863b747b6f"
   dependencies:
-    fun-q "^0.1.0"
+    fun-q "^0.2.0"
 
 imports-loader@^0.7.1:
   version "0.7.1"
