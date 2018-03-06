@@ -1,6 +1,6 @@
 {
   "name": "berek",
-  "version": "11.0.0",
+  "version": "12.0.0",
   "description": "Utilities for the browser in TypeScript.",
   "dependencies": {
     "illa": "^13.0.0",
@@ -15,7 +15,7 @@
     "webpack": "^3.6.0"
   },
   "scripts": {
-    "compile": "yarn && webpack --display-chunks --display-modules"
+    "compile": "yarn && rimraf *.js *.d.ts && tsc && webpack --config ./config/webpack.config.js"
   },
   "repository": {
     "type": "git",

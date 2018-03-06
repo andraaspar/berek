@@ -7,9 +7,11 @@
 			"dom"
 		],
 		"baseUrl": ".",
+		"newLine": "LF",
+		"declaration": true,
+		"noImplicitThis": true,
 		"noImplicitAny": true,
 		"noImplicitReturns": true,
-		"noImplicitThis": true,
 		"forceConsistentCasingInFileNames": true,
 		"strictNullChecks": true
 	},

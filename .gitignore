@@ -1,4 +1,5 @@
 /.vscode
-/bower_components
+/*.d.ts
+/*.js
 /build
 /node_modules
