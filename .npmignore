@@ -8,3 +8,5 @@
 /tests.js
 
 !/*.d.ts
+
+/tests.d.ts
