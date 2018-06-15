@@ -980,8 +980,8 @@ fstream@^1.0.0, fstream@^1.0.10, fstream@^1.0.2:
     rimraf "2"
 
 fun-q@^0.3.0:
-  version "0.3.0"
-  resolved "https://registry.yarnpkg.com/fun-q/-/fun-q-0.3.0.tgz#5b237583808da2b09491271f616363c265f3a846"
+  version "0.3.1"
+  resolved "https://registry.yarnpkg.com/fun-q/-/fun-q-0.3.1.tgz#1949b0baca56665e88ce423bae2b5b526521bbad"
 
 gauge@~2.7.3:
   version "2.7.4"
@@ -1168,9 +1168,9 @@ ieee754@^1.1.4:
   version "1.1.8"
   resolved "https://registry.yarnpkg.com/ieee754/-/ieee754-1.1.8.tgz#be33d40ac10ef1926701f6f08a2d86fbfd1ad3e4"
 
-illa@^13.0.0:
-  version "13.0.0"
-  resolved "https://registry.yarnpkg.com/illa/-/illa-13.0.0.tgz#9e0fc201af95b055cc588ee6b0a123f499c901d9"
+illa@^14.0.0:
+  version "14.0.0"
+  resolved "https://registry.yarnpkg.com/illa/-/illa-14.0.0.tgz#a13d6775cb396ac99c12312448aab11619e1d7d9"
   dependencies:
     fun-q "^0.3.0"
 
@@ -2466,8 +2466,8 @@ tweetnacl@^0.14.3, tweetnacl@~0.14.0:
   resolved "https://registry.yarnpkg.com/tweetnacl/-/tweetnacl-0.14.5.tgz#5ae68177f192d4456269d108afa93ff8743f4f64"
 
 typescript@^2.4.1:
-  version "2.5.2"
-  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.5.2.tgz#038a95f7d9bbb420b1bf35ba31d4c5c1dd3ffe34"
+  version "2.9.2"
+  resolved "https://registry.yarnpkg.com/typescript/-/typescript-2.9.2.tgz#1cbf61d05d6b96269244eb6a3bce4bd914e0f00c"
 
 uglify-js@3.0.x:
   version "3.0.25"
