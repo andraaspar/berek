@@ -1,18 +1,17 @@
-import { Filter } from './Filter'
-import { isUndefinedOrNull } from 'illa/Type'
+import { Filter } from './Filter';
 
 export class Settings {
 
-	private static settings: { [s: string]: any[] } = {}
+	private static settings: { [s: string]: object[] } = {}
 	private static filters: Filter[] = []
 
-	static read(key: string): any[] {
+	static read(key: string): object[] {
 		var result = this.settings[key] || []
 		this.settings[key] = []
 		return result
 	}
 
-	static write(key: string, value: any) {
+	static write(key: string, value: object) {
 		if (this.settings[key]) {
 			this.settings[key].push(value)
 		} else {
@@ -27,7 +26,7 @@ export class Settings {
 				let settings = Settings.read(filter.getSettingsKey())
 				let results: Promise<any>[] = []
 				for (var i = 0, n = settings.length; i < n; i++) {
-					if (!isUndefinedOrNull(settings[i])) {
+					if (settings[i]) {
 						try {
 							let promise = filter.useSetting(settings[i])
 							if (promise) results.push(promise)

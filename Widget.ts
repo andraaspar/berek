@@ -1,13 +1,13 @@
-import { EventHandler } from 'illa/EventHandler'
-import { bind } from 'illa/FunctionUtil'
-import jQuery from 'jquery-ts'
+import { EventEmitter } from 'events';
+import { bind } from 'illa/FunctionUtil';
+import jQuery from 'jquery-ts';
 
 export const JQUERY_DATA_KEY = 'berek_Widget'
 export const EVENT_DESTROYED = 'berek_Widget_EVENT_DESTROYED'
 export const PART_KEY = 'berek-widget-part'
 export const PART_ATTR = 'data-' + PART_KEY
 
-export class Widget extends EventHandler {
+export class Widget extends EventEmitter {
 
 	private jQuery: jQuery.IInstance
 	private isDestroyed = false
@@ -40,7 +40,7 @@ export class Widget extends EventHandler {
 
 	protected onDestroyed(e?: jQuery.IEvent | null): void {
 		this.isDestroyed = true
-		this.removeAllEventCallbacks()
+		this.removeAllListeners()
 	}
 
 	protected initParts(ancestor = this.jQuery): void {
