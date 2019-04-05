@@ -1,5 +1,5 @@
-import { Axis2D } from 'illa/Axis2D'
-import jQuery from 'jquery-ts'
+import { Axis2D } from 'illa/Axis2D';
+import jQuery from 'jquery-ts';
 
 export class ScrollbarUtil {
 	private box: jQuery.IInstance
@@ -15,7 +15,7 @@ export class ScrollbarUtil {
 		this.box.css({
 			position: 'absolute',
 			top: -size - 1 + 'px',
-			left: '0',
+			left: -size - 1 + 'px',
 			width: size + 'px',
 			height: size + 'px',
 			overflow: 'scroll'
